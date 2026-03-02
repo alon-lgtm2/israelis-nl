@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Israelis.nl — Israeli Community in the Netherlands</title>
+    <meta name="description" content="The home for Israelis living in the Netherlands. Connect, share, and belong.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Noto+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+Hebrew:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --blue:       #0038A8;
+            --blue-deep:  #001F6B;
+            --blue-dark:  #000D33;
+            --orange:     #FF6600;
+            --orange-warm:#FF8C42;
+            --white:      #FFFFFF;
+            --cream:      #F5F0E8;
+            --text:       #1C1C2E;
+            --text-light: #5A5A7A;
+            --font-display: 'Syne', sans-serif;
+            --font-body:    'Noto Sans', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ─── NAV ─────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.3s, backdrop-filter 0.3s;
+        }
+        nav.scrolled {
+            background: rgba(0,13,51,0.88);
+            backdrop-filter: blur(14px);
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-logo span { color: var(--orange); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--orange); }
+        .nav-cta {
+            background: var(--orange) !important;
+            color: var(--white) !important;
+            padding: 0.45rem 1.25rem;
+            font-weight: 700 !important;
+            transition: background 0.2s !important;
+        }
+        .nav-cta:hover { background: #d95500 !important; }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--white);
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+
+        /* ─── HERO ────────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            background: var(--blue-dark);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+        .hero-bg svg {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            opacity: 0.035;
+        }
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 80% at 70% 50%,
+                rgba(0,56,168,0.7) 0%, transparent 70%);
+        }
+        .hero-orange-glow {
+            position: absolute;
+            bottom: -200px; left: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,102,0,0.14) 0%, transparent 70%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 9rem 2rem 5rem;
+            width: 100%;
+        }
+        .hero-eyebrow {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 800;
+            line-height: 0.92;
+            color: var(--white);
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+        .hero-title .accent { color: var(--orange); }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 2.5vw, 1.45rem);
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+            max-width: 560px;
+            line-height: 1.55;
+            margin-bottom: 0.75rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+        .hero-sub {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.38);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.75s forwards;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.95s forwards;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-block;
+        }
+        .btn-primary:hover { background: #d95500; transform: translateY(-2px); }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.28);
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-block;
+        }
+        .btn-outline:hover { border-color: var(--white); transform: translateY(-2px); }
+
+        .hero-stats {
+            position: absolute;
+            right: 3rem; bottom: 4.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            opacity: 0;
+            animation: fadeLeft 0.8s ease 1.2s forwards;
+        }
+        .stat-item { text-align: right; }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1;
+        }
+        .stat-number span { color: var(--orange); }
+        .stat-label {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 2rem; left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.25);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: bounce 2s ease infinite 2.5s;
+        }
+        .scroll-line {
+            width: 1px; height: 40px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+        }
+
+        /* ─── ABOUT ───────────────────────────────────────── */
+        .about {
+            padding: 8rem 2rem;
+            background: var(--cream);
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        .section-label {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 0.9rem;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+        .section-title em { font-style: normal; color: var(--blue); }
+
+        .section-body {
+            color: var(--text-light);
+            line-height: 1.78;
+            font-size: 1.05rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+        .about-indent {
+            border-left: 4px solid var(--orange);
+            padding-left: 1.25rem;
+            margin-top: 0.5rem;
+        }
+        .about-indent p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.72;
+        }
+        .about-card {
+            background: var(--blue);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: -60%; right: -40%;
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(255,102,0,0.18) 0%, transparent 70%);
+        }
+        .about-stripe {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 2rem;
+        }
+        .stripe { height: 3px; flex: 1; background: rgba(255,255,255,0.2); }
+        .stripe.o { background: var(--orange); }
+
+        .about-quote {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.45;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .about-quote-author {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 0.04em;
+        }
+        .about-footnote {
+            margin-top: 1rem;
+            background: rgba(255,102,0,0.1);
+            border-left: 3px solid var(--orange);
+            padding: 1rem 1.25rem;
+        }
+        .about-footnote p {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            line-height: 1.65;
+        }
+
+        /* ─── COMMUNITY ───────────────────────────────────── */
+        .community {
+            padding: 8rem 2rem;
+            background: var(--white);
+        }
+        .community-header { max-width: 680px; margin-bottom: 4rem; }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--cream);
+            padding: 2.5rem;
+            border-top: 4px solid transparent;
+            transition: all 0.35s cubic-bezier(0.34,1.2,0.64,1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:nth-child(1) { border-color: var(--blue); }
+        .card:nth-child(2) { border-color: var(--orange); }
+        .card:nth-child(3) { border-color: #00A36C; }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.4s cubic-bezier(0.34,1.1,0.64,1);
+            z-index: 0;
+        }
+        .card:nth-child(1)::before { background: var(--blue); }
+        .card:nth-child(2)::before { background: var(--orange); }
+        .card:nth-child(3)::before { background: #00A36C; }
+
+        .card:hover::before { transform: scaleY(1); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+
+        .card > * { position: relative; z-index: 1; }
+
+        .card-icon { font-size: 2.5rem; margin-bottom: 1.25rem; display: block; }
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+        .card-body {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            transition: color 0.3s;
+        }
+        .card:hover .card-title,
+        .card:hover .card-body { color: rgba(255,255,255,0.92); }
+
+        .card-link {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s, gap 0.3s;
+        }
+        .card:nth-child(1) .card-link { color: var(--blue); }
+        .card:nth-child(2) .card-link { color: var(--orange); }
+        .card:nth-child(3) .card-link { color: #00A36C; }
+        .card:hover .card-link { color: var(--white); gap: 0.85rem; }
+        .card-link::after { content: '→'; }
+
+        /* ─── NEWSLETTER ──────────────────────────────────── */
+        .newsletter {
+            background: var(--blue);
+            padding: 8rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .newsletter::before {
+            content: '';
+            position: absolute;
+            top: -200px; left: -200px;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255,102,0,0.14) 0%, transparent 70%);
+        }
+        .newsletter-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .newsletter-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+        .newsletter-title span { color: var(--orange); }
+        .newsletter-desc {
+            color: rgba(255,255,255,0.58);
+            line-height: 1.72;
+            font-size: 1.05rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 0.45rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1.1rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .form-input::placeholder { color: rgba(255,255,255,0.22); }
+        .form-input:focus { background: rgba(255,255,255,0.11); border-color: var(--orange); }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        .form-submit {
+            width: 100%;
+            background: var(--orange);
+            color: var(--white);
+            padding: 1rem;
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background 0.25s, transform 0.2s;
+        }
+        .form-submit:hover { background: #d95500; transform: translateY(-1px); }
+
+        #success-msg {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            background: rgba(255,255,255,0.1);
+            border-left: 3px solid var(--orange);
+            color: var(--white);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ─── FOOTER ──────────────────────────────────────── */
+        footer {
+            background: var(--blue-dark);
+            padding: 4.5rem 2rem 2rem;
+        }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            margin-bottom: 2rem;
+        }
+        .footer-brand .nav-logo { font-size: 1.65rem; display: block; margin-bottom: 1rem; }
+        .footer-brand p {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.88rem;
+            line-height: 1.72;
+            max-width: 270px;
+        }
+        .footer-col-title {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--orange);
+            margin-bottom: 1.25rem;
+        }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+        .footer-links a {
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--white); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-copy { color: rgba(255,255,255,0.22); font-size: 0.78rem; }
+        .footer-flags { font-size: 1.4rem; display: flex; gap: 0.4rem; }
+
+        /* ─── ANIMATIONS ──────────────────────────────────── */
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeLeft {
+            from { opacity: 0; transform: translateX(30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%       { transform: translateX(-50%) translateY(-8px); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
+
+        /* ─── RESPONSIVE ──────────────────────────────────── */
+        @media (max-width: 900px) {
+            .about-grid,
+            .newsletter-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .hero-stats { display: none; }
+        }
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .nav-toggle { display: block; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── NAV ──────────────────────────────────────────── -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">Israelis<span>.nl</span></a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#community">Community</a></li>
+            <li><a href="#newsletter">Newsletter</a></li>
+            <li><a href="#newsletter" class="nav-cta">Join Us</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ─── HERO ──────────────────────────────────────────── -->
+    <section class="hero">
+        <div class="hero-bg">
+            <!-- Subtle geometric star pattern background -->
+            <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="sp" width="90" height="104" patternUnits="userSpaceOnUse">
+                        <!-- Star of David outline -->
+                        <polygon points="45,5 55,22 72,22 59,34 64,51 45,40 26,51 31,34 18,22 35,22"
+                                 fill="none" stroke="white" stroke-width="1.2"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#sp)"/>
+            </svg>
+            <div class="hero-gradient"></div>
+            <div class="hero-orange-glow"></div>
+        </div>
+
+        <div class="hero-content">
+            <p class="hero-eyebrow">Israeli Community in the Netherlands</p>
+            <h1 class="hero-title">
+                Israelis<span class="accent">.nl</span>
+            </h1>
+            <p class="hero-tagline">Where Israelis in the Netherlands connect, share, and belong.</p>
+            <p class="hero-sub">ברוכים הבאים &nbsp;·&nbsp; Welkom &nbsp;·&nbsp; Welcome</p>
+            <div class="hero-actions">
+                <a href="#community" class="btn-primary">Explore Community</a>
+                <a href="#about" class="btn-outline">Our Story</a>
+            </div>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">20<span>K+</span></div>
+                <div class="stat-label">Israelis in NL</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><span>#</span>1</div>
+                <div class="stat-label">Community Hub</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Cities</div>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <div class="scroll-line"></div>
+            Scroll
+        </div>
+    </section>
+
+    <!-- ─── ABOUT ──────────────────────────────────────────── -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div>
+                    <p class="section-label reveal">Our Story</p>
+                    <h2 class="section-title reveal reveal-d1">A home away<br>from <em>home</em></h2>
+                    <p class="section-body reveal reveal-d2">
+                        Whether you've just landed in Amsterdam, been living in Rotterdam for years, or are planning your move — Israelis.nl is your community platform. We bring together tens of thousands of Israelis across the Netherlands.
+                    </p>
+                    <p class="section-body reveal reveal-d2">
+                        Find local events, get practical advice, share your experiences, and build real connections with people who understand where you come from.
+                    </p>
+                    <div class="about-indent reveal reveal-d3">
+                        <p>From BSN registration tips to Friday-night dinners, from Hebrew tutors to the best hummus in Amsterdam — it all lives here.</p>
+                    </div>
+                </div>
+
+                <div class="reveal reveal-d2">
+                    <div class="about-card">
+                        <div class="about-stripe">
+                            <div class="stripe"></div>
+                            <div class="stripe"></div>
+                            <div class="stripe o"></div>
+                            <div class="stripe o"></div>
+                            <div class="stripe"></div>
+                            <div class="stripe"></div>
+                        </div>
+                        <p class="about-quote">"Two flags, one community. Our roots are Israeli, our home is the Netherlands."</p>
+                        <p class="about-quote-author">— The Israelis.nl Team</p>
+                    </div>
+                    <div class="about-footnote">
+                        <p>🇮🇱 &nbsp;Founded by Israelis who know the expat experience firsthand &nbsp;🇳🇱</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── COMMUNITY ──────────────────────────────────────── -->
+    <section class="community" id="community">
+        <div class="container">
+            <div class="community-header">
+                <p class="section-label reveal">What We Offer</p>
+                <h2 class="section-title reveal reveal-d1">Built for our<br><em>community</em></h2>
+            </div>
+            <div class="cards-grid">
+                <div class="card reveal reveal-d1">
+                    <span class="card-icon">📅</span>
+                    <h3 class="card-title">Events &amp; Meetups</h3>
+                    <p class="card-body">From Shabbat dinners in Amsterdam to Israeli film screenings in The Hague — discover events happening near you every week.</p>
+                    <a href="#" class="card-link">Browse Events</a>
+                </div>
+                <div class="card reveal reveal-d2">
+                    <span class="card-icon">💬</span>
+                    <h3 class="card-title">Community Forum</h3>
+                    <p class="card-body">Ask questions, share tips, find a flat, recommend a dentist, or just chat in Hebrew. The most active Israeli expat forum in the Netherlands.</p>
+                    <a href="#" class="card-link">Join the Forum</a>
+                </div>
+                <div class="card reveal reveal-d3">
+                    <span class="card-icon">🗂️</span>
+                    <h3 class="card-title">Resources &amp; Guides</h3>
+                    <p class="card-body">BSN registration, healthcare, schools, housing — practical guides you actually need when you move to the Netherlands.</p>
+                    <a href="#" class="card-link">View Resources</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── NEWSLETTER ──────────────────────────────────────── -->
+    <section class="newsletter" id="newsletter">
+        <div class="newsletter-inner">
+            <div>
+                <p class="section-label" style="color:var(--orange-warm)">Stay Connected</p>
+                <h2 class="newsletter-title">Join the<br><span>community</span>.</h2>
+                <p class="newsletter-desc">Get the weekly digest: events, community news, and useful guides — in your inbox, in English, with the occasional Hebrew joke.</p>
+            </div>
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" placeholder="Yael">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" placeholder="Cohen">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Your City</label>
+                    <input type="text" class="form-input" placeholder="Amsterdam, Rotterdam, Utrecht…">
+                </div>
+                <button type="submit" class="form-submit">Subscribe to Newsletter →</button>
+                <div id="success-msg">✓ Todah! You're on the list. Welcome to the community 🇮🇱🇳🇱</div>
+            </form>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ──────────────────────────────────────────── -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo">Israelis<span>.nl</span></a>
+                <p>Your Israeli community platform in the Netherlands. Connecting Israelis from Amsterdam to Maastricht.</p>
+            </div>
+            <div>
+                <p class="footer-col-title">Community</p>
+                <ul class="footer-links">
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Forum</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-col-title">Cities</p>
+                <ul class="footer-links">
+                    <li><a href="#">Amsterdam</a></li>
+                    <li><a href="#">Rotterdam</a></li>
+                    <li><a href="#">The Hague</a></li>
+                    <li><a href="#">Utrecht</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-col-title">Follow Us</p>
+                <ul class="footer-links">
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">WhatsApp Groups</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2024 Israelis.nl &nbsp;·&nbsp; All rights reserved</p>
+            <div class="footer-flags">🇮🇱&nbsp;🇳🇱</div>
+        </div>
+    </footer>
+
+    <script>
+        // Sticky nav on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll-reveal via IntersectionObserver
+        const reveals = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.14 });
+        reveals.forEach(el => io.observe(el));
+
+        // Newsletter form
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('success-msg').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
