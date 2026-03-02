@@ -1,6 +1,5 @@
 <script>
   import '../app.css';
-  import { base } from '$app/paths';
   import { onMount } from 'svelte';
 
   onMount(() => {
@@ -15,12 +14,12 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="{base}/" class="nav-logo">Israelis<span>.nl</span></a>
+  <a href="/" class="nav-logo">Israelis<span>.nl</span></a>
   <ul class="nav-links">
-    <li><a href="{base}/#about">About</a></li>
-    <li><a href="{base}/#community">Community</a></li>
-    <li><a href="{base}/#newsletter">Newsletter</a></li>
-    <li><a href="{base}/#newsletter" class="nav-cta">Join Us</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#community">Community</a></li>
+    <li><a href="/#newsletter">Newsletter</a></li>
+    <li><a href="/#newsletter" class="nav-cta">Join Us</a></li>
   </ul>
   <button class="nav-toggle" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -34,25 +33,25 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="{base}/" class="nav-logo">Israelis<span>.nl</span></a>
+      <a href="/" class="nav-logo">Israelis<span>.nl</span></a>
       <p>Your Israeli community platform in the Netherlands. Connecting Israelis from Amsterdam to Maastricht.</p>
     </div>
     <div>
       <p class="footer-col-title">Community</p>
       <ul class="footer-links">
-        <li><a href="{base}/events">Events</a></li>
-        <li><a href="{base}/forum">Forum</a></li>
-        <li><a href="{base}/resources">Resources</a></li>
-        <li><a href="{base}/#newsletter">Newsletter</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/forum">Forum</a></li>
+        <li><a href="/resources">Resources</a></li>
+        <li><a href="/#newsletter">Newsletter</a></li>
       </ul>
     </div>
     <div>
       <p class="footer-col-title">Cities</p>
       <ul class="footer-links">
-        <li><a href="{base}/amsterdam">Amsterdam</a></li>
-        <li><a href="{base}/rotterdam">Rotterdam</a></li>
-        <li><a href="{base}/den-haag">The Hague</a></li>
-        <li><a href="{base}/utrecht">Utrecht</a></li>
+        <li><a href="/amsterdam">Amsterdam</a></li>
+        <li><a href="/rotterdam">Rotterdam</a></li>
+        <li><a href="/den-haag">The Hague</a></li>
+        <li><a href="/utrecht">Utrecht</a></li>
       </ul>
     </div>
     <div>

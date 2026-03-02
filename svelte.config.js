@@ -8,9 +8,6 @@ const config = {
       assets: 'build',
       fallback: '404.html'
     }),
-    paths: {
-      base: process.argv.includes('dev') ? '' : '/israelis-nl'
-    },
     prerender: {
       handleHttpError: 'warn'
     }
