@@ -12,7 +12,8 @@
       desc: 'המלצות לאירועים ופעילויות לילדים בהולנד — כל סוף שבוע מחדש.',
       status: 'live',
       theme: 'card-hayom',
-      heroStyle: 'background: linear-gradient(135deg, #21A366 0%, #2ECC71 100%);',
+      heroStyle: 'background: linear-gradient(135deg, #7B2FBE 0%, #C850C0 50%, #9B59B6 100%);',
+      banner: '/hayom-banner.jpeg',
       about: 'הורים לילדים בהולנד שמחפשים מה לעשות בסוף השבוע? בהולנד, שפע של אירועי תרבות ובידור מותאמים לילדים — אבל אין מקום אחד שמאגד אותם. הקבוצה הזאת היא הפתרון.',
       details: [
         { icon: '📅', title: 'כל סוף שבוע', text: 'פוסטים שבועיים עם אירועים לסוף השבוע הקרוב — כדי שתוכלו לתכנן מראש.' },
@@ -20,8 +21,7 @@
         { icon: '👨‍👩‍👧', title: 'לכל המשפחה', text: 'מותאם לילדים בכל הגילאים — ממוזיקה ועד ספורט, מאמנות ועד טבע.' },
       ],
       links: [
-        { href: '/hayom', label: 'לאתר הפרויקט', cardLabel: 'לפרויקט', external: false },
-        { href: 'https://www.facebook.com/groups/907652610513541', label: 'לקבוצת פייסבוק', cardLabel: 'פייסבוק', external: true },
+        { href: 'https://www.facebook.com/groups/907652610513541', label: 'קחו אותי לשם! ←', cardLabel: 'לפעילויות', external: true },
       ]
     },
     {
@@ -289,13 +289,17 @@
 
     <div class="modal-hero" style={activeCard.heroStyle}>
       <button class="modal-close" class:dark={activeCard.darkHero} on:click={closeCard}>×</button>
-      <span class="modal-status {activeCard.status === 'live' ? 'status-live' : 'status-soon'}" class:dark-badge={activeCard.darkHero}>
-        {activeCard.status === 'live' ? 'פעיל' : 'בקרוב'}
-      </span>
-      <span class="modal-emoji">{activeCard.emoji}</span>
-      <div class="modal-category" class:dark-text={activeCard.darkHero}>{activeCard.category}</div>
-      <h2 class="modal-title" class:dark-text={activeCard.darkHero}>{activeCard.title}</h2>
-      <p class="modal-desc" class:dark-text={activeCard.darkHero}>{activeCard.desc}</p>
+      {#if activeCard.banner}
+        <img src={activeCard.banner} alt={activeCard.title} class="modal-banner" />
+      {:else}
+        <span class="modal-status {activeCard.status === 'live' ? 'status-live' : 'status-soon'}" class:dark-badge={activeCard.darkHero}>
+          {activeCard.status === 'live' ? 'פעיל' : 'בקרוב'}
+        </span>
+        <span class="modal-emoji">{activeCard.emoji}</span>
+        <div class="modal-category" class:dark-text={activeCard.darkHero}>{activeCard.category}</div>
+        <h2 class="modal-title" class:dark-text={activeCard.darkHero}>{activeCard.title}</h2>
+        <p class="modal-desc" class:dark-text={activeCard.darkHero}>{activeCard.desc}</p>
+      {/if}
     </div>
 
     <div class="modal-body">
@@ -392,6 +396,12 @@
   .modal-status.status-soon { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
   .modal-status.dark-badge { background: rgba(0,0,0,0.08); color: rgba(0,0,0,0.5); }
 
+  .modal-banner {
+    width: 100%; height: auto; display: block;
+    border-radius: 0;
+    margin: 0;
+  }
+
   .modal-emoji { font-size: 3.5rem; display: block; margin-bottom: 0.8rem; }
 
   .modal-category {
@@ -432,13 +442,18 @@
 
   .modal-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
   .modal-link-btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.75rem 1.5rem; border-radius: 50px;
-    font-weight: 700; font-size: 0.9rem;
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.9rem 2rem; border-radius: 50px;
+    font-weight: 700; font-size: 1rem;
     text-decoration: none;
     background: #1B2A4A; color: white;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+  /* Single CTA — full width */
+  .modal-links:has(.modal-link-btn:only-child) { display: block; }
+  .modal-links:has(.modal-link-btn:only-child) .modal-link-btn {
+    width: 100%; font-size: 1.1rem; padding: 1rem 2rem;
   }
   .modal-link-btn.secondary {
     background: transparent; color: #5a5a7a;
