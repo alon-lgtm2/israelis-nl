@@ -139,4 +139,24 @@
     <a href="/hatecheck" class="card-link">לכלי <span class="arrow">←</span></a>
   </div>
 
+  <!-- מוצאים עבודה בהולנד -->
+  <div class="project-card card-jobs">
+    <span class="card-status status-soon">בקרוב</span>
+    <span class="card-emoji">🚀</span>
+    <div class="card-category">קריירה</div>
+    <div class="card-title">מוצאים עבודה בהולנד</div>
+    <div class="card-desc">ייעוץ קריירה אפקטיבי לישראלים בהולנד. איך לחפש, איך להתבלט, ואיך לנחות את התפקיד הבא.</div>
+    <a href="/jobs" class="card-link">בקרוב <span class="arrow">←</span></a>
+  </div>
+
+  <!-- רשת עסקים -->
+  <div class="project-card card-business">
+    <span class="card-status status-soon">בקרוב</span>
+    <span class="card-emoji">🤝</span>
+    <div class="card-category">עסקים</div>
+    <div class="card-title">Israeli Business Network</div>
+    <div class="card-desc">רשת עסקית לישראלים בהולנד. חיבורים, שותפויות, והזדמנויות — בין יזמים ובעלי עסקים בקהילה.</div>
+    <a href="/business" class="card-link">בקרוב <span class="arrow">←</span></a>
+  </div>
+
 </div>

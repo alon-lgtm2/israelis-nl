@@ -217,6 +217,14 @@ body {
 .card-nca .card-link { color: #FDEBD0; }
 .card-nca::before { background: linear-gradient(135deg, #D44333 0%, #F15A4A 100%); }
 
+.card-jobs { background: linear-gradient(135deg, #0F3460 0%, #16213E 100%); color: var(--white); }
+.card-jobs .card-link { color: #4FC3F7; }
+.card-jobs::before { background: linear-gradient(135deg, #1A4A7A 0%, #1E2E50 100%); }
+
+.card-business { background: linear-gradient(135deg, #B7791F 0%, #D69E2E 100%); color: var(--white); }
+.card-business .card-link { color: #FEF3C7; }
+.card-business::before { background: linear-gradient(135deg, #C68A2A 0%, #E5B340 100%); }
+
 /* Status Badges */
 .card-status {
   display: inline-block; font-size: 0.7rem; font-weight: 700;
