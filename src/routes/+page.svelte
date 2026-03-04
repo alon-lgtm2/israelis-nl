@@ -1,183 +1,142 @@
 <script>
   import { onMount } from 'svelte';
 
-  let formSuccess = false;
-
   onMount(() => {
-    // Scroll-reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          io.unobserve(e.target);
+    // Scroll-reveal for project cards
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const idx = Array.from(document.querySelectorAll('.project-card')).indexOf(entry.target);
+          entry.target.style.animationDelay = `${idx * 0.1}s`;
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.14 });
-    reveals.forEach(el => io.observe(el));
-  });
+    }, { threshold: 0.15 });
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    formSuccess = true;
-  }
+    document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
+
+    // Smooth scroll on hint click
+    document.querySelector('.hero-scroll-hint')?.addEventListener('click', () => {
+      document.querySelector('.section-intro')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 </script>
 
 <svelte:head>
-  <title>Israelis.nl — Israeli Community in the Netherlands</title>
-  <meta name="description" content="The home for Israelis living in the Netherlands. Connect, share, and belong." />
+  <title>israelis.nl — הבית של הישראלים בהולנד</title>
+  <meta name="description" content="קהילה, תוכן, כלים ויוזמות לישראלים בהולנד" />
 </svelte:head>
 
-<!-- ─── HERO ─────────────────────────────────── -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-bg">
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="sp" width="90" height="104" patternUnits="userSpaceOnUse">
-          <polygon points="45,5 55,22 72,22 59,34 64,51 45,40 26,51 31,34 18,22 35,22"
-                   fill="none" stroke="white" stroke-width="1.2"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#sp)"/>
-    </svg>
-    <div class="hero-gradient"></div>
-    <div class="hero-orange-glow"></div>
+  <div class="float-elements">
+    <div class="float-el"></div>
+    <div class="float-el"></div>
+    <div class="float-el"></div>
   </div>
-
   <div class="hero-content">
-    <p class="hero-eyebrow">Israeli Community in the Netherlands</p>
-    <h1 class="hero-title">
-      Israelis<span class="accent">.nl</span>
-    </h1>
-    <p class="hero-tagline">Where Israelis in the Netherlands connect, share, and belong.</p>
-    <p class="hero-sub">ברוכים הבאים &nbsp;·&nbsp; Welkom &nbsp;·&nbsp; Welcome</p>
-    <div class="hero-actions">
-      <a href="#community" class="btn-primary">Explore Community</a>
-      <a href="#about" class="btn-outline">Our Story</a>
-    </div>
+    <h1 class="hero-logo">israelis<span class="dot">.</span>nl</h1>
+    <p class="hero-tagline">הבית של הישראלים בהולנד</p>
   </div>
-
-  <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-number">20<span>K+</span></div>
-      <div class="stat-label">Israelis in NL</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number"><span>#</span>1</div>
-      <div class="stat-label">Community Hub</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">7</div>
-      <div class="stat-label">Cities</div>
-    </div>
-  </div>
-
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    Scroll
+  <div class="hero-scroll-hint">
+    <span>גלו עוד</span>
+    <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<!-- ─── ABOUT ────────────────────────────────── -->
-<section class="about" id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div>
-        <p class="section-label reveal">Our Story</p>
-        <h2 class="section-title reveal reveal-d1">A home away<br>from <em>home</em></h2>
-        <p class="section-body reveal reveal-d2">
-          Whether you've just landed in Amsterdam, been living in Rotterdam for years, or are planning your move — Israelis.nl is your community platform. We bring together tens of thousands of Israelis across the Netherlands.
-        </p>
-        <p class="section-body reveal reveal-d2">
-          Find local events, get practical advice, share your experiences, and build real connections with people who understand where you come from.
-        </p>
-        <div class="about-indent reveal reveal-d3">
-          <p>From BSN registration tips to Friday-night dinners, from Hebrew tutors to the best hummus in Amsterdam — it all lives here.</p>
-        </div>
-      </div>
+<!-- PROJECTS -->
+<div class="section-intro">
+  <h2>הפרויקטים שלנו</h2>
+  <p>קהילה, תוכן, כלים ויוזמות — הכל נבנה מתוך אהבה לקהילה הישראלית בהולנד</p>
+</div>
 
-      <div class="reveal reveal-d2">
-        <div class="about-card">
-          <div class="about-stripe">
-            <div class="stripe"></div>
-            <div class="stripe"></div>
-            <div class="stripe o"></div>
-            <div class="stripe o"></div>
-            <div class="stripe"></div>
-            <div class="stripe"></div>
-          </div>
-          <p class="about-quote">"Two flags, one community. Our roots are Israeli, our home is the Netherlands."</p>
-          <p class="about-quote-author">— The Israelis.nl Team</p>
-        </div>
-        <div class="about-footnote">
-          <p>🇮🇱 &nbsp;Founded by Israelis who know the expat experience firsthand &nbsp;🇳🇱</p>
-        </div>
-      </div>
+<div class="projects">
+
+  <!-- אז מה עושים היום -->
+  <div class="project-card card-hayom">
+    <span class="card-status status-live">פעיל</span>
+    <span class="card-emoji">🎯</span>
+    <div class="card-category">פעילויות</div>
+    <div class="card-title">אז מה עושים היום</div>
+    <div class="card-desc">המלצות לאירועים ופעילויות לילדים בהולנד — כל סוף שבוע מחדש. כי גוגל לא יספר לך מה קורה השבת ליד הבית.</div>
+    <div style="display:flex; gap:1rem; margin-top:1.2rem; flex-wrap:wrap;">
+      <a href="/hayom" class="card-link" style="margin-top:0;">לפרויקט <span class="arrow">←</span></a>
+      <a href="https://www.facebook.com/groups/907652610513541" class="card-link" style="margin-top:0; opacity:0.7;" target="_blank" rel="noopener">פייסבוק <span class="arrow">←</span></a>
     </div>
   </div>
-</section>
 
-<!-- ─── COMMUNITY ─────────────────────────────── -->
-<section class="community" id="community">
-  <div class="container">
-    <div class="community-header">
-      <p class="section-label reveal">What We Offer</p>
-      <h2 class="section-title reveal reveal-d1">Built for our<br><em>community</em></h2>
-    </div>
-    <div class="cards-grid">
-      <div class="card reveal reveal-d1">
-        <span class="card-icon">📅</span>
-        <h3 class="card-title">Events &amp; Meetups</h3>
-        <p class="card-body">From Shabbat dinners in Amsterdam to Israeli film screenings in The Hague — discover events happening near you every week.</p>
-        <a href="#" class="card-link">Browse Events</a>
-      </div>
-      <div class="card reveal reveal-d2">
-        <span class="card-icon">💬</span>
-        <h3 class="card-title">Community Forum</h3>
-        <p class="card-body">Ask questions, share tips, find a flat, recommend a dentist, or just chat in Hebrew. The most active Israeli expat forum in the Netherlands.</p>
-        <a href="#" class="card-link">Join the Forum</a>
-      </div>
-      <div class="card reveal reveal-d3">
-        <span class="card-icon">🗂️</span>
-        <h3 class="card-title">Resources &amp; Guides</h3>
-        <p class="card-body">BSN registration, healthcare, schools, housing — practical guides you actually need when you move to the Netherlands.</p>
-        <a href="#" class="card-link">View Resources</a>
-      </div>
+  <!-- הייטקיסטים בהולנד -->
+  <div class="project-card card-hitech">
+    <span class="card-status status-live">פעיל</span>
+    <span class="card-emoji">💻</span>
+    <div class="card-category">קהילה</div>
+    <div class="card-title">הייטקיסטים בהולנד</div>
+    <div class="card-desc">הקהילה הגדולה להייטקיסטים ישראלים בהולנד — מ-2019. עזרה במציאת עבודה, טיפים לרילוקיישן, ונטוורקינג.</div>
+    <div style="display:flex; gap:1rem; margin-top:1.2rem; flex-wrap:wrap;">
+      <a href="https://tech.israelis.nl" class="card-link" style="margin-top:0;">לאתר <span class="arrow">←</span></a>
+      <a href="https://www.facebook.com/groups/426953251245124" class="card-link" style="margin-top:0; opacity:0.7;" target="_blank" rel="noopener">פייסבוק <span class="arrow">←</span></a>
     </div>
   </div>
-</section>
 
-<!-- ─── NEWSLETTER ────────────────────────────── -->
-<section class="newsletter" id="newsletter">
-  <div class="newsletter-inner">
-    <div>
-      <p class="section-label" style="color: var(--orange-warm)">Stay Connected</p>
-      <h2 class="newsletter-title">Join the<br><span>community</span>.</h2>
-      <p class="newsletter-desc">Get the weekly digest: events, community news, and useful guides — in your inbox, in English, with the occasional Hebrew joke.</p>
-    </div>
-    <form on:submit={handleSubmit}>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">First Name</label>
-          <input type="text" class="form-input" placeholder="Yael" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Last Name</label>
-          <input type="text" class="form-input" placeholder="Cohen" />
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email Address</label>
-        <input type="email" class="form-input" placeholder="you@example.com" required />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Your City</label>
-        <input type="text" class="form-input" placeholder="Amsterdam, Rotterdam, Utrecht…" />
-      </div>
-      <button type="submit" class="form-submit">Subscribe to Newsletter →</button>
-      {#if formSuccess}
-        <div class="success-msg">✓ Todah! You're on the list. Welcome to the community 🇮🇱🇳🇱</div>
-      {/if}
-    </form>
+  <!-- NCA ליגת האמהות -->
+  <div class="project-card card-nca">
+    <span class="card-status status-live">פעיל</span>
+    <span class="card-emoji">🏐</span>
+    <div class="card-category">ספורט</div>
+    <div class="card-title">NCA ליגת האמהות</div>
+    <div class="card-desc">ליגת האמהות ההולנדית בכדורשת. ספורט, כיף, וקהילה לאמהות ישראליות בהולנד.</div>
+    <a href="/nca" class="card-link">לליגה <span class="arrow">←</span></a>
   </div>
-</section>
+
+  <!-- פאפות אמסטלפיין -->
+  <div class="project-card card-papot">
+    <span class="card-status status-live">פעיל</span>
+    <span class="card-emoji">👶</span>
+    <div class="card-category">הורות</div>
+    <div class="card-title">פאפות אמסטלפיין</div>
+    <div class="card-desc">קהילת ההורים הישראלים באמסטלפיין והסביבה. טיפים, מפגשים, ותמיכה הדדית.</div>
+    <a href="/papot" class="card-link">לקהילה <span class="arrow">←</span></a>
+  </div>
+
+  <!-- סבא בא -->
+  <div class="project-card card-saba">
+    <span class="card-status status-soon">בקרוב</span>
+    <span class="card-emoji">👴</span>
+    <div class="card-category">משפחה</div>
+    <div class="card-title">סבא בא</div>
+    <div class="card-desc">כשסבא וסבתא באים לביקור בהולנד — המדריך השלם להפוך את הביקור לחוויה בלתי נשכחת.</div>
+    <a href="/saba" class="card-link">בקרוב <span class="arrow">←</span></a>
+  </div>
+
+  <!-- הולנד הקלאסית -->
+  <div class="project-card card-holland">
+    <span class="card-status status-soon">בקרוב</span>
+    <span class="card-emoji">🌷</span>
+    <div class="card-category">תיירות</div>
+    <div class="card-title">הולנד הקלאסית</div>
+    <div class="card-desc">המקומות שכל ישראלי בהולנד חייב להכיר. טחנות רוח, גבינות, ותעלות — הגרסה האותנטית.</div>
+    <a href="/holland" class="card-link">בקרוב <span class="arrow">←</span></a>
+  </div>
+
+  <!-- הגדה על המפה -->
+  <div class="project-card card-hagada">
+    <span class="card-status status-live">פעיל</span>
+    <span class="card-emoji">🗺️</span>
+    <div class="card-category">תרבות</div>
+    <div class="card-title">הגדה על המפה</div>
+    <div class="card-desc">מפה אינטראקטיבית של מקומות יהודיים וישראליים בהולנד. היסטוריה, קהילה, וזיכרון.</div>
+    <a href="/hagada" class="card-link">למפה <span class="arrow">←</span></a>
+  </div>
+
+  <!-- HateCheck -->
+  <div class="project-card card-hatecheck">
+    <span class="card-status status-live">פעיל</span>
+    <span class="card-emoji">🛡️</span>
+    <div class="card-category">כלים</div>
+    <div class="card-title">HateCheck</div>
+    <div class="card-desc">כלי לזיהוי ומעקב אחרי תוכן שנאה ברשת. כי מגיע לנו מרחב מקוון בטוח.</div>
+    <a href="/hatecheck" class="card-link">לכלי <span class="arrow">←</span></a>
+  </div>
+
+</div>
