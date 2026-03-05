@@ -175,17 +175,6 @@ body {
 }
 .card-desc { font-size: 0.95rem; line-height: 1.6; opacity: 0.75; flex-grow: 1; }
 
-.card-toggle {
-  position: absolute; top: 1.2rem; right: 1.2rem;
-  width: 26px; height: 26px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; background: rgba(255,255,255,0.15);
-  font-size: 1.1rem; font-weight: 400; line-height: 1;
-  color: rgba(255,255,255,0.8);
-  transition: transform 0.3s ease, background 0.3s ease;
-  user-select: none;
-}
-.project-card.expanded .card-toggle { background: rgba(255,255,255,0.25); }
 
 .card-more {
   margin-top: 1.4rem; padding-top: 1.2rem;
@@ -244,6 +233,10 @@ body {
 .card-business { background: linear-gradient(135deg, #B7791F 0%, #D69E2E 100%); color: var(--white); }
 .card-business .card-link { color: #FEF3C7; }
 .card-business::before { background: linear-gradient(135deg, #C68A2A 0%, #E5B340 100%); }
+
+.card-nifgashim { background: linear-gradient(135deg, #16705F 0%, #1DAA8A 100%); color: var(--white); }
+.card-nifgashim .card-link { color: #A7F3D0; }
+.card-nifgashim::before { background: linear-gradient(135deg, #1A7E6C 0%, #22BF9A 100%); }
 
 /* Status Badges */
 .card-status {

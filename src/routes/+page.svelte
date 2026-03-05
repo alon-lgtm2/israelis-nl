@@ -2,12 +2,15 @@
   import { onMount } from 'svelte';
 
   let activeCard = null;
+  let formValues = {};
+  let formStatus = {};
 
   const cards = [
     {
       id: 'hayom',
       emoji: '🎯',
       category: 'פעילויות',
+      tag: 'Facebook',
       title: 'אז מה עושים היום',
       desc: 'המלצות לאירועים ופעילויות לילדים בהולנד — כל סוף שבוע מחדש.',
       status: 'live',
@@ -28,6 +31,7 @@
       id: 'hitech',
       emoji: '💻',
       category: 'טק וחדשנות',
+      tag: 'Facebook',
       title: 'הייטקיסטים בהולנד',
       desc: 'הנטוורק המקצועי המוביל באירופה לקהילת הטק והחדשנות הישראלית בהולנד.',
       status: 'live',
@@ -49,6 +53,7 @@
       id: 'nca',
       emoji: '🏐',
       category: 'ספורט',
+      tag: 'Live',
       title: 'NCA ליגת האמהות',
       desc: 'ליגת האמהות ההולנדית בכדורשת. ספורט, כיף, וקהילה לאמהות ישראליות בהולנד.',
       status: 'live',
@@ -68,6 +73,7 @@
       id: 'papot',
       emoji: '👶',
       category: 'הורות',
+      tag: 'WhatsApp',
       title: 'פאפות אמסטלפיין',
       desc: 'קהילת ההורים הישראלים באמסטלפיין והסביבה. טיפים, מפגשים, ותמיכה הדדית.',
       status: 'live',
@@ -79,50 +85,57 @@
         { icon: '🎉', title: 'מפגשים', text: 'ברביקיו, חגים, ואירועים לילדים ביחד.' },
         { icon: '🤝', title: 'תמיכה הדדית', text: 'כי לגדל ילדים בחו"ל עושים ביחד.' },
       ],
-      links: [
-        { href: '/papot', label: 'לקהילה', cardLabel: 'לקהילה', external: false },
-      ]
+      hasForm: true,
+      formId: 'mnjgardn',
+      links: []
     },
     {
       id: 'saba',
       emoji: '👴',
       category: 'משפחה',
+      tag: 'WhatsApp',
       title: 'סבא בא',
-      desc: 'כשסבא וסבתא באים לביקור בהולנד — המדריך השלם להפוך את הביקור לחוויה בלתי נשכחת.',
-      status: 'soon',
+      desc: 'קבוצת וואטסאפ לישראלים שהוריהם באים לביקור בהולנד — טיפים, מסלולים, ועצות מהשטח.',
+      status: 'live',
       theme: 'card-saba',
       heroStyle: 'background: white; color: #1a1a2e !important;',
       darkHero: true,
-      about: 'מדריך מקיף לביקורי הורים מישראל. מה לעשות, לאן ללכת, ואיך לתכנן שבוע שיגרום לסבא וסבתא לרצות לחזור.',
+      about: 'קבוצה לישראלים שסבא וסבתא באים אליהם לביקור בהולנד. שאלות על מה לעשות, לאן ללכת, ואיך לגרום לביקור להיות בלתי נשכח — בקהילה שכבר עברה את זה.',
       details: [
         { icon: '🗺️', title: 'מסלולים מוכנים', text: 'תכניות ביקור לפי משך השהייה — יומיים, שבוע, שבועיים.' },
         { icon: '🎠', title: 'עם הנכדים', text: 'פעילויות שמתאימות לסבים עם ילדים קטנים.' },
         { icon: '🍽️', title: 'אוכל ומסעדות', text: 'המלצות על מסעדות שמתאימות לביקורי משפחה.' },
       ],
+      hasForm: true,
+      formId: 'mnjgardn',
       links: []
     },
     {
       id: 'holland',
-      emoji: '🌷',
-      category: 'תיירות',
+      emoji: '🎻',
+      category: 'מוזיקה',
+      tag: 'WhatsApp',
       title: 'הולנד הקלאסית',
-      desc: 'המקומות שכל ישראלי בהולנד חייב להכיר. טחנות רוח, גבינות, ותעלות — הגרסה האותנטית.',
-      status: 'soon',
+      desc: 'קבוצת וואטסאפ לחובבי מוזיקה קלאסית בהולנד — קונצרטים, המלצות, ושיח מוזיקלי.',
+      status: 'live',
       theme: 'card-holland',
       heroStyle: 'background: #F5E6D3; color: #1a1a2e !important;',
       darkHero: true,
-      about: 'מדריך לאטרקציות הקלאסיות של הולנד — לאלה שכבר גרים כאן ורוצים להכיר את המדינה לעומק, ולאורחים שבאים לביקור.',
+      about: 'קהילה ייעודית לחובבי מוזיקה קלאסית בהולנד. קונצרטים של Concertgebouw ופילהרמונית רוטרדם, המלצות על אלבומים, ושיח מוזיקלי — הכל בעברית.',
       details: [
-        { icon: '🏗️', title: 'זאנסה סכאנס', text: 'כפר טחנות הרוח ההיסטורי — 20 דקות מאמסטרדם.' },
-        { icon: '🧀', title: 'אלכסמאר', text: 'שוק הגבינות המפורסם — ניסיון הולנדי אמיתי.' },
-        { icon: '🌿', title: 'חיטהורן', text: 'הכפר ללא כבישים — תעלות, סירות, ושקט מוחלט.' },
+        { icon: '🎼', title: 'קונצרטים', text: 'עדכונים על הופעות ותזמורות מובילות בהולנד — כולל Concertgebouw.' },
+        { icon: '🎧', title: 'המלצות מוזיקה', text: 'שיתוף אהבות, תגליות, ויצירות שכדאי להכיר.' },
+        { icon: '🎹', title: 'קהילה מוזיקלית', text: 'חיבור בין מוזיקאים, מורים, ואוהבי מוזיקה קלאסית.' },
       ],
+      hasForm: true,
+      formId: 'mnjgardn',
       links: []
     },
     {
       id: 'hagada',
       emoji: '🗺️',
       category: 'תרבות',
+      tag: 'מפה',
       title: 'הגדה על המפה',
       desc: 'מפה אינטראקטיבית של מקומות יהודיים וישראליים בהולנד. היסטוריה, קהילה, וזיכרון.',
       status: 'live',
@@ -142,6 +155,7 @@
       id: 'hatecheck',
       emoji: '🛡️',
       category: 'כלים',
+      tag: 'כלי',
       title: 'HateCheck',
       desc: 'כלי לזיהוי ומעקב אחרי תוכן שנאה ברשת. כי מגיע לנו מרחב מקוון בטוח.',
       status: 'live',
@@ -156,6 +170,26 @@
       links: [
         { href: '/hatecheck', label: 'לכלי', cardLabel: 'לכלי', external: false },
       ]
+    },
+    {
+      id: 'nifgashim',
+      emoji: '☕',
+      category: 'קהילה',
+      tag: 'WhatsApp',
+      title: 'נפגשים בעברית',
+      desc: 'קבוצה לישראלים בגיל 60 ומעלה המתגוררים בהולנד — שיח בעברית, מפגשים, ועזרה הדדית.',
+      status: 'live',
+      theme: 'card-nifgashim',
+      heroStyle: 'background: linear-gradient(135deg, #16705F 0%, #1DAA8A 100%);',
+      about: 'קבוצת וואטסאפ לישראלים בגיל 60 ומעלה שגרים בהולנד. מקום לשיח בעברית, מפגשים חברתיים, ועזרה הדדית — כי גיל שלישי בחו"ל הוא גם הרפתקה.',
+      details: [
+        { icon: '🗣️', title: 'שיח בעברית', text: 'קבוצה פעילה עם שיחות, שאלות, והמלצות — בעברית, בין ישראלים.' },
+        { icon: '☕', title: 'מפגשים חברתיים', text: 'קפה, הליכות, ואירועים לגיל השלישי ברחבי הולנד.' },
+        { icon: '🤝', title: 'עזרה הדדית', text: 'שאלות על רפואה, בירוקרטיה, וחיי יומיום — ביחד יותר קל.' },
+      ],
+      hasForm: true,
+      formId: 'mnjgardn',
+      links: []
     },
     {
       id: 'jobs',
@@ -195,12 +229,35 @@
 
   function openCard(card) {
     activeCard = card;
+    if (card.hasForm && !formValues[card.id]) {
+      formValues[card.id] = { name: '', phone: '' };
+    }
     document.body.style.overflow = 'hidden';
   }
 
   function closeCard() {
     activeCard = null;
     document.body.style.overflow = '';
+  }
+
+  async function submitForm(card) {
+    const data = formValues[card.id];
+    if (!data?.name || !data?.phone) return;
+    formStatus = { ...formStatus, [card.id]: 'loading' };
+    try {
+      const res = await fetch(`https://formspree.io/f/${card.formId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          _subject: `בקשת הצטרפות — ${card.title}`,
+        })
+      });
+      formStatus = { ...formStatus, [card.id]: res.ok ? 'success' : 'error' };
+    } catch {
+      formStatus = { ...formStatus, [card.id]: 'error' };
+    }
   }
 
   onMount(() => {
@@ -261,8 +318,9 @@
   {#each cards as card}
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
   <div class="project-card {card.theme}" on:click={() => openCard(card)}>
-    <span class="card-status {card.status === 'live' ? 'status-live' : 'status-soon'}">{card.status === 'live' ? 'פעיל' : 'בקרוב'}</span>
-    <span class="card-toggle">+</span>
+    <span class="card-status {card.status === 'live' ? 'status-live' : 'status-soon'}">
+      {card.status === 'live' ? (card.tag || 'Live') : 'בקרוב'}
+    </span>
     <span class="card-emoji">{card.emoji}</span>
     <div class="card-category">{card.category}</div>
     <div class="card-title">{card.title}</div>
@@ -286,23 +344,29 @@
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
 <div class="modal-backdrop" on:click={closeCard}>
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
-  <div class="modal-card" on:click|stopPropagation>
+  <div class="modal-card" class:banner-layout={!!activeCard.banner} on:click|stopPropagation>
 
+    <!-- CLOSE BUTTON -->
+    <button class="modal-close" on:click={closeCard}>×</button>
+
+    <!-- LEFT/TOP: HERO PANEL -->
     <div class="modal-hero" style={activeCard.heroStyle}>
-      <button class="modal-close" class:dark={activeCard.darkHero} on:click={closeCard}>×</button>
       {#if activeCard.banner}
         <img src={activeCard.banner} alt={activeCard.title} class="modal-banner" />
       {:else}
-        <span class="modal-status {activeCard.status === 'live' ? 'status-live' : 'status-soon'}" class:dark-badge={activeCard.darkHero}>
-          {activeCard.status === 'live' ? 'פעיל' : 'בקרוב'}
-        </span>
-        <span class="modal-emoji">{activeCard.emoji}</span>
-        <div class="modal-category" class:dark-text={activeCard.darkHero}>{activeCard.category}</div>
-        <h2 class="modal-title" class:dark-text={activeCard.darkHero}>{activeCard.title}</h2>
-        <p class="modal-desc" class:dark-text={activeCard.darkHero}>{activeCard.desc}</p>
+        <div class="modal-hero-inner">
+          <span class="modal-status {activeCard.status === 'live' ? 'status-live' : 'status-soon'}" class:dark-badge={activeCard.darkHero}>
+            {activeCard.status === 'live' ? (activeCard.tag || 'Live') : 'בקרוב'}
+          </span>
+          <span class="modal-emoji">{activeCard.emoji}</span>
+          <div class="modal-category" class:dark-text={activeCard.darkHero}>{activeCard.category}</div>
+          <h2 class="modal-title" class:dark-text={activeCard.darkHero}>{activeCard.title}</h2>
+          <p class="modal-desc" class:dark-text={activeCard.darkHero}>{activeCard.desc}</p>
+        </div>
       {/if}
     </div>
 
+    <!-- RIGHT/BOTTOM: BODY PANEL -->
     <div class="modal-body">
       <p class="modal-about">{activeCard.about}</p>
 
@@ -322,7 +386,38 @@
       <p class="modal-note">⚠️ {activeCard.note}</p>
       {/if}
 
-      {#if activeCard.links.length > 0}
+      {#if activeCard.hasForm}
+        <div class="modal-form-section">
+          {#if formStatus[activeCard.id] === 'success'}
+            <div class="form-success">
+              <span class="success-icon">✅</span>
+              <p>קיבלנו! ניצור קשר בקרוב ונוסיף אתכם לקבוצה.</p>
+            </div>
+          {:else}
+            <p class="form-label">הצטרפות לקבוצה</p>
+            <form class="join-form" on:submit|preventDefault={() => submitForm(activeCard)}>
+              <input
+                type="text"
+                placeholder="שם מלא *"
+                bind:value={formValues[activeCard.id].name}
+                required
+              />
+              <input
+                type="tel"
+                placeholder="מספר טלפון *"
+                bind:value={formValues[activeCard.id].phone}
+                required
+              />
+              <button type="submit" class="submit-btn" disabled={formStatus[activeCard.id] === 'loading'}>
+                {formStatus[activeCard.id] === 'loading' ? 'שולח...' : 'הצטרפות לקבוצה ←'}
+              </button>
+              {#if formStatus[activeCard.id] === 'error'}
+                <p class="form-error">משהו השתבש. נסו שוב.</p>
+              {/if}
+            </form>
+          {/if}
+        </div>
+      {:else if activeCard.links.length > 0}
       <div class="modal-links">
         {#each activeCard.links as link, i}
         <a href={link.href} class="modal-link-btn" class:secondary={i > 0}
@@ -346,110 +441,155 @@
   .modal-backdrop {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 1000;
     display: flex; align-items: center; justify-content: center;
-    padding: 1rem;
+    padding: 1.5rem;
     animation: backdropIn 0.2s ease;
   }
   @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
 
+  /* Default: two-column layout (no banner) */
   .modal-card {
+    display: flex;
+    flex-direction: row;
     background: white;
     border-radius: 24px;
-    max-width: 640px; width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-width: 840px;
+    width: 100%;
+    max-height: 82vh;
+    overflow: hidden;
     position: relative;
     animation: modalUp 0.35s cubic-bezier(0.23,1,0.32,1);
-    box-shadow: 0 40px 120px rgba(0,0,0,0.35);
+    box-shadow: 0 40px 120px rgba(0,0,0,0.4);
+  }
+
+  /* Banner layout: stacked (banner on top, content below) */
+  .modal-card.banner-layout {
+    flex-direction: column;
+    max-width: 620px;
+  }
+  .modal-card.banner-layout .modal-hero {
+    width: 100%;
+    max-height: 210px;
+    flex-shrink: 0;
+  }
+  .modal-card.banner-layout .modal-banner {
+    height: 210px;
+    object-fit: cover;
   }
   @keyframes modalUp {
     from { transform: translateY(40px) scale(0.97); opacity: 0; }
     to   { transform: translateY(0) scale(1); opacity: 1; }
   }
 
-  .modal-hero {
-    padding: 3rem 2rem 2.5rem;
-    border-radius: 24px 24px 0 0;
-    color: white;
-    position: relative;
-  }
-
+  /* Close button — top corner of modal */
   .modal-close {
-    position: absolute; top: 1rem; left: 1rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 100;
     width: 36px; height: 36px;
     border: none; border-radius: 50%;
-    background: rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
     color: white; font-size: 1.4rem; line-height: 1;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: background 0.2s, transform 0.2s;
     padding: 0;
   }
-  .modal-close:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
-  .modal-close.dark { background: rgba(0,0,0,0.08); color: #1a1a2e; }
-  .modal-close.dark:hover { background: rgba(0,0,0,0.15); }
+  .modal-close:hover { background: rgba(0,0,0,0.55); transform: scale(1.1); }
+
+  /* Hero panel (right side in RTL) */
+  .modal-hero {
+    width: 300px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .modal-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Hero content for non-banner cards */
+  .modal-hero-inner {
+    height: 100%;
+    padding: 3rem 1.8rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.3rem;
+    color: white;
+  }
 
   .modal-status {
     display: inline-block; font-size: 0.7rem; font-weight: 700;
     padding: 0.25em 0.75em; border-radius: 100px;
     text-transform: uppercase; letter-spacing: 0.05em;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
     background: rgba(33,163,102,0.25); color: #2ECC71;
+    align-self: flex-start;
   }
   .modal-status.status-soon { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
   .modal-status.dark-badge { background: rgba(0,0,0,0.08); color: rgba(0,0,0,0.5); }
 
-  .modal-banner {
-    width: 100%; height: auto; display: block;
-    border-radius: 0;
-    margin: 0;
-  }
-
-  .modal-emoji { font-size: 3.5rem; display: block; margin-bottom: 0.8rem; }
+  .modal-emoji { font-size: 3rem; display: block; margin-bottom: 0.4rem; }
 
   .modal-category {
-    font-size: 0.75rem; font-weight: 700;
+    font-size: 0.72rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.1em;
-    opacity: 0.65; margin-bottom: 0.4rem;
+    opacity: 0.6; margin-bottom: 0.3rem;
     color: white;
   }
   .modal-title {
     font-family: 'Secular One', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
-    line-height: 1.2; margin-bottom: 0.8rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2; margin-bottom: 0.5rem;
     color: white;
   }
   .modal-desc {
-    font-size: 1rem; opacity: 0.85; line-height: 1.65;
+    font-size: 0.9rem; opacity: 0.8; line-height: 1.55;
     color: white;
   }
   .dark-text { color: #1a1a2e !important; }
 
-  .modal-body { padding: 2rem 2rem 2.5rem; }
+  /* Body panel (left side in RTL) */
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: white;
+  }
 
   .modal-about {
-    font-size: 1rem; line-height: 1.75; color: #5a5a7a;
-    margin-bottom: 1.8rem;
-    padding-bottom: 1.8rem;
+    font-size: 0.95rem; line-height: 1.7; color: #5a5a7a;
+    margin-bottom: 1.4rem;
+    padding-bottom: 1.4rem;
     border-bottom: 1px solid rgba(0,0,0,0.07);
   }
 
-  .modal-details { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 2rem; }
-  .modal-detail-item { display: flex; align-items: flex-start; gap: 1rem; }
-  .detail-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .modal-details { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.4rem; }
+  .modal-detail-item { display: flex; align-items: flex-start; gap: 0.8rem; }
+  .detail-icon { font-size: 1.4rem; flex-shrink: 0; }
   .modal-detail-item strong {
-    font-size: 0.95rem; color: #1a1a2e;
-    display: block; margin-bottom: 0.2rem;
+    font-size: 0.9rem; color: #1a1a2e;
+    display: block; margin-bottom: 0.15rem;
   }
-  .modal-detail-item p { font-size: 0.9rem; color: #5a5a7a; margin: 0; line-height: 1.55; }
+  .modal-detail-item p { font-size: 0.85rem; color: #5a5a7a; margin: 0; line-height: 1.5; }
 
-  .modal-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .modal-links { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: auto; }
   .modal-link-btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-    padding: 0.9rem 2rem; border-radius: 50px;
-    font-weight: 700; font-size: 1rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.85rem 1.8rem; border-radius: 50px;
+    font-weight: 700; font-size: 0.95rem;
     text-decoration: none;
     background: #1B2A4A; color: white;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -458,7 +598,7 @@
   /* Single CTA — full width */
   .modal-links:has(.modal-link-btn:only-child) { display: block; }
   .modal-links:has(.modal-link-btn:only-child) .modal-link-btn {
-    width: 100%; font-size: 1.1rem; padding: 1rem 2rem;
+    width: 100%; font-size: 1rem; padding: 0.95rem 2rem;
   }
   .modal-link-btn.secondary {
     background: transparent; color: #5a5a7a;
@@ -468,23 +608,113 @@
   .modal-link-btn.secondary:hover { background: rgba(0,0,0,0.04); }
 
   .modal-note {
-    font-size: 0.85rem; color: #5a5a7a; line-height: 1.6;
+    font-size: 0.82rem; color: #5a5a7a; line-height: 1.6;
     background: rgba(0,0,0,0.04); border-right: 3px solid rgba(0,0,0,0.15);
-    padding: 0.8rem 1rem; border-radius: 0 8px 8px 0;
-    margin-bottom: 1.5rem;
+    padding: 0.7rem 0.9rem; border-radius: 0 8px 8px 0;
+    margin-bottom: 1.2rem;
   }
 
   .modal-coming-soon {
-    font-size: 0.95rem; color: #5a5a7a;
+    font-size: 0.9rem; color: #5a5a7a;
     background: rgba(0,0,0,0.04);
-    padding: 1rem 1.2rem; border-radius: 12px;
-    margin: 0;
+    padding: 0.9rem 1.1rem; border-radius: 12px;
+    margin-top: auto;
   }
 
-  @media (max-width: 600px) {
-    .modal-card { border-radius: 20px 20px 0 0; max-height: 95vh; }
+  /* ===== JOIN FORM ===== */
+  .modal-form-section { margin-top: auto; }
+
+  .form-label {
+    font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: #5a5a7a; margin-bottom: 0.75rem;
+  }
+
+  .join-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .join-form input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1.5px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.95rem;
+    color: #1a1a2e;
+    background: #fafafa;
+    direction: rtl;
+    text-align: right;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+  }
+  .join-form input:focus {
+    border-color: #1B2A4A;
+    background: white;
+  }
+  .join-form input::placeholder { color: #aaa; }
+
+  .submit-btn {
+    width: 100%;
+    padding: 0.95rem;
+    background: #1B2A4A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    margin-top: 0.2rem;
+  }
+  .submit-btn:hover:not(:disabled) {
+    background: #253d6a;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.2);
+  }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .form-success {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(33,163,102,0.08);
+    border-radius: 16px;
+    border: 1px solid rgba(33,163,102,0.2);
+  }
+  .form-success .success-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+  .form-success p { color: #1a1a2e; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+
+  .form-error {
+    font-size: 0.82rem;
+    color: #e53e3e;
+    text-align: center;
+    margin-top: 0.2rem;
+  }
+
+  /* Mobile: everything stacked */
+  @media (max-width: 640px) {
     .modal-backdrop { align-items: flex-end; padding: 0; }
-    .modal-hero { padding: 2.5rem 1.5rem 2rem; }
+    .modal-card {
+      flex-direction: column;
+      border-radius: 20px 20px 0 0;
+      max-width: 100%;
+      max-height: 95vh;
+    }
+    .modal-card.banner-layout { max-width: 100%; }
+    .modal-hero {
+      width: 100%;
+      min-height: 160px;
+      max-height: 200px;
+    }
+    .modal-card.banner-layout .modal-hero { max-height: 180px; }
+    .modal-card.banner-layout .modal-banner { height: 180px; }
+    .modal-banner { height: 100%; object-fit: cover; }
+    .modal-hero-inner { padding: 2rem 1.5rem 1.5rem; }
     .modal-body { padding: 1.5rem 1.5rem 2rem; }
+    .modal-close { top: 0.75rem; right: 0.75rem; }
   }
 </style>
