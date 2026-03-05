@@ -27,21 +27,22 @@
     {
       id: 'hitech',
       emoji: '💻',
-      category: 'קהילה',
+      category: 'טק וחדשנות',
       title: 'הייטקיסטים בהולנד',
-      desc: 'הקהילה הגדולה להייטקיסטים ישראלים בהולנד — מ-2019. עזרה במציאת עבודה, טיפים לרילוקיישן, ונטוורקינג.',
+      desc: 'הנטוורק המקצועי המוביל באירופה לקהילת הטק והחדשנות הישראלית בהולנד.',
       status: 'live',
       theme: 'card-hitech',
-      heroStyle: 'background: linear-gradient(135deg, #1B2A4A 0%, #2D4373 100%);',
-      about: 'הקהילה הגדולה ביותר של ישראלים בתעשיית ההייטק ההולנדית. אלפי חברים — מהנדסים, מנהלי מוצר, מעצבים, ומייסדים — שמשתפים ידע, עוזרים זה לזה, ובונים ביחד.',
+      heroStyle: 'background: #0a0a0a;',
+      banner: '/hitech-banner.jpeg',
+      about: 'הבית המקצועי של קהילת הטק והחדשנות הישראלית בהולנד. הקבוצה מהווה צומת מרכזי ליזמים, מנהלים, משקיעים ואנשי פיתוח — ומטרתה לייצר נטוורקינג איכותי, שיתוף ידע אסטרטגי, והזדמנויות צמיחה בתעשייה המקומית.',
       details: [
-        { icon: '🗓️', title: 'פעילה מ-2019', text: 'אחת הקהילות הישראליות הוותיקות והגדולות בהולנד.' },
-        { icon: '💼', title: 'מציאת עבודה', text: 'פוסטי משרות, המלצות על חברות, וחיבורים לגיוס.' },
-        { icon: '🌍', title: 'רילוקיישן', text: 'טיפים על ויזות, חוזי עבודה, דיור, ומיסים.' },
+        { icon: '🧠', title: 'ידע ושוק', text: 'דיונים מקצועיים, תובנות ותחזיות, וניתוחי שוק עדכניים על האקוסיסטם ההולנדי.' },
+        { icon: '📋', title: 'לוח משרות ממוקד', text: 'פוזיציות High-Tech ו-Corporate בהולנד ובאירופה — ישירות מחברות ומגייסים בתוך הקהילה.' },
+        { icon: '🤝', title: 'חיבורים עסקיים', text: 'נטוורקינג, שיתופי פעולה, והיכרויות בין יזמים, מנהלים ומשקיעים שמייצרות הזדמנויות אמיתיות.' },
       ],
+      note: 'הקהילה שומרת על שיח מקצועי ואיכותי. פרסום מסחרי וקידום עצמי מתאפשרים במסגרת שיתופי פעולה רשמיים בלבד — לפרטים, פנו לאדמינים.',
       links: [
-        { href: 'https://tech.israelis.nl', label: 'לאתר הקהילה', cardLabel: 'לאתר', external: true },
-        { href: 'https://www.facebook.com/groups/426953251245124', label: 'לקבוצת פייסבוק', cardLabel: 'פייסבוק', external: true },
+        { href: 'https://www.facebook.com/groups/426953251245124', label: 'הצטרפו לקהילה ←', cardLabel: 'לקהילה', external: true },
       ]
     },
     {
@@ -317,13 +318,17 @@
         {/each}
       </div>
 
+      {#if activeCard.note}
+      <p class="modal-note">⚠️ {activeCard.note}</p>
+      {/if}
+
       {#if activeCard.links.length > 0}
       <div class="modal-links">
         {#each activeCard.links as link, i}
         <a href={link.href} class="modal-link-btn" class:secondary={i > 0}
            target={link.external ? '_blank' : '_self'}
            rel={link.external ? 'noopener' : ''}>
-          {link.label} <span>←</span>
+          {link.label}
         </a>
         {/each}
       </div>
@@ -461,6 +466,13 @@
   }
   .modal-link-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.2); }
   .modal-link-btn.secondary:hover { background: rgba(0,0,0,0.04); }
+
+  .modal-note {
+    font-size: 0.85rem; color: #5a5a7a; line-height: 1.6;
+    background: rgba(0,0,0,0.04); border-right: 3px solid rgba(0,0,0,0.15);
+    padding: 0.8rem 1rem; border-radius: 0 8px 8px 0;
+    margin-bottom: 1.5rem;
+  }
 
   .modal-coming-soon {
     font-size: 0.95rem; color: #5a5a7a;
