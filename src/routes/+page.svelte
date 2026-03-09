@@ -144,7 +144,9 @@
         { icon: '🤝', title: 'תמיכה הדדית', text: 'כי לגדל ילדים בחו"ל עושים ביחד.' },
       ],
       hasForm: true,
-      formId: 'mnjgardn',
+      useGoogleSignIn: true,
+      formLabel: 'התחברו עם גוגל להצטרפות',
+      ctaLabel: 'להצטרפות',
       links: []
     },
     {
@@ -188,7 +190,9 @@
         { icon: '🎹', title: 'קהילה מוזיקלית', text: 'חיבור בין מוזיקאים, מורים, ואוהבי מוזיקה קלאסית.' },
       ],
       hasForm: true,
-      formId: 'mnjgardn',
+      useGoogleSignIn: true,
+      formLabel: 'התחברו עם גוגל להצטרפות',
+      ctaLabel: 'להצטרפות',
       links: []
     },
     {
@@ -248,7 +252,9 @@
         { icon: '🤝', title: 'עזרה הדדית', text: 'שאלות על רפואה, בירוקרטיה, וחיי יומיום — ביחד יותר קל.' },
       ],
       hasForm: true,
-      formId: 'mnjgardn',
+      useGoogleSignIn: true,
+      formLabel: 'התחברו עם גוגל להצטרפות',
+      ctaLabel: 'להצטרפות',
       links: []
     },
     {
