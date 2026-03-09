@@ -70,7 +70,7 @@
       emoji: '🗳️',
       category: 'בחירות',
       tag: 'חדש',
-      title: 'הצבעה 2026',
+      title: 'בחירות מוניציפליות 2026',
       desc: 'הבחירות המוניציפליות בהולנד מגיעות. כל מה שצריך לדעת כדי להצביע — בעברית.',
       status: 'live',
       theme: 'card-elect',
@@ -89,7 +89,7 @@
       id: 'hayom',
       emoji: '🎯',
       category: 'פעילויות',
-      tag: 'Facebook',
+      tag: 'פנאי',
       title: 'אז מה עושים היום',
       desc: 'המלצות לאירועים ופעילויות לילדים בהולנד — כל סוף שבוע מחדש.',
       status: 'live',
@@ -110,7 +110,7 @@
       id: 'hitech',
       emoji: '💻',
       category: 'טק וחדשנות',
-      tag: 'Facebook',
+      tag: 'קהילה מקצועית',
       title: 'הייטקיסטים בהולנד',
       desc: 'הנטוורק המקצועי המוביל באירופה לקהילת הטק והחדשנות הישראלית בהולנד.',
       status: 'live',
@@ -132,6 +132,7 @@
       id: 'nca',
       emoji: '🏐',
       category: 'ספורט',
+      tag: 'ספורט',
       title: 'NCA ליגת האמהות',
       desc: 'ליגת האמהות ההולנדית בכדורשת. ספורט, כיף, וקהילה לאמהות ישראליות בהולנד.',
       status: 'soon',
@@ -149,9 +150,9 @@
     },
     {
       id: 'papot',
-      emoji: '👶',
+      emoji: '🍺',
       category: 'הורות',
-      tag: 'WhatsApp',
+      tag: 'קהילה',
       title: 'פאפות אמסטלפיין',
       desc: 'קהילת ההורים הישראלים באמסטלפיין והסביבה. טיפים, מפגשים, ותמיכה הדדית.',
       status: 'live',
@@ -175,16 +176,16 @@
       category: 'משפחה',
       tag: 'קהילה',
       title: 'סבא בא',
-      desc: 'קהילה לישראלים שהוריהם באים לביקור בהולנד — טיפים, מסלולים, ועצות מהשטח.',
+      desc: 'ההורים נוחתים בשבוע הבא? קהילה לישראלים שמארחים הורים מבוגרים לביקור ממושך בהולנד — טיפים, מסלולים, ועצות מהשטח.',
       status: 'live',
       theme: 'card-saba',
       heroStyle: 'background: white; color: #1a1a2e !important;',
       darkHero: true,
-      about: 'קהילה לישראלים שסבא וסבתא באים אליהם לביקור בהולנד. שאלות על מה לעשות, לאן ללכת, ואיך לגרום לביקור להיות בלתי נשכח — עם אנשים שכבר עברו את זה.',
+      about: 'מקום לישראלים שמארחים הורים מבוגרים לשבועות ארוכים בהולנד. מה לעשות עם סבא כשגמרו את אמסטרדם? לאן לקחת סבתא שמתקשה ללכת? איך מסבירים לרופא אילנית מה כואב לה? כאן תמצאו אנשים שכבר עברו את זה — ויודעים.',
       details: [
-        { icon: '🗺️', title: 'מסלולים מוכנים', text: 'תכניות ביקור לפי משך השהייה — יומיים, שבוע, שבועיים.' },
-        { icon: '🎠', title: 'עם הנכדים', text: 'פעילויות שמתאימות לסבים עם ילדים קטנים.' },
-        { icon: '🍽️', title: 'אוכל ומסעדות', text: 'המלצות על מסעדות שמתאימות לביקורי משפחה.' },
+        { icon: '🗺️', title: 'מסלולים לפי משך השהייה', text: 'תכניות ביקור לשבוע, שבועיים, ויותר — כולל אופציות לכאלה שמתקשים בהליכה ממושכת.' },
+        { icon: '🏥', title: 'בריאות ובירוקרטיה', text: 'רופאים, תרופות, ביטוחי נסיעות — כל מה שצריך לדעת לפני ובמהלך הביקור.' },
+        { icon: '🍽️', title: 'המלצות מהשטח', text: 'מסעדות, פעילויות, וטיפים שעובדים — ממשפחות שכבר עשו את זה.' },
       ],
       hasForm: true,
       formLabel: 'התחברו עם גוגל לפרטים נוספים',
@@ -217,19 +218,19 @@
     },
     {
       id: 'hagada',
-      emoji: '🗺️',
-      category: 'תרבות',
-      tag: 'מפה',
+      emoji: '🍷',
+      category: 'חגים',
+      tag: 'פסח',
       title: 'הגדה על המפה',
-      desc: 'מפה אינטראקטיבית של מקומות יהודיים וישראליים בהולנד. היסטוריה, קהילה, וזיכרון.',
+      desc: 'מחפשים סדר פסח בהולנד? מפה אינטראקטיבית של סדרי פסח ציבוריים, קהילות, ואירועי חג ברחבי הארץ.',
       status: 'live',
       theme: 'card-hagada',
       heroStyle: 'background: linear-gradient(135deg, #6C3483 0%, #8E44AD 100%);',
-      about: 'מפה אינטראקטיבית שמאגדת בתי כנסת, אנדרטאות שואה, מסעדות כשרות, ומרכזים קהילתיים יהודיים וישראליים בכל הולנד. היסטוריה, הווה, וזיכרון — על מפה אחת.',
+      about: 'בהשראת sedermap.com — מפה שמאגדת סדרי פסח ציבוריים, אירועי חג, וקהילות ישראליות וחבד בהולנד. בין אם אתם מחפשים סדר פתוח, רוצים לארגן אחד, או פשוט רוצים לדעת מה קורה ליד הבית — הכל כאן.',
       details: [
-        { icon: '🕍', title: 'בתי כנסת', text: 'בתי כנסת פעילים והיסטוריים ברחבי הולנד.' },
-        { icon: '🕯️', title: 'אנדרטאות זיכרון', text: 'אתרי זיכרון לקהילה היהודית בהולנד.' },
-        { icon: '🍽️', title: 'אוכל כשר', text: 'מסעדות ומאפיות כשרות בכל הארץ.' },
+        { icon: '🕍', title: 'סדרי פסח ציבוריים', text: 'סדרי פסח פתוחים מקהילות, בתי כנסת, וחבד ברחבי הולנד.' },
+        { icon: '📍', title: 'לפי מיקום', text: 'מצאו אירועי חג קרובים אליכם — באמסטרדם, רוטרדם, האג ובכל הארץ.' },
+        { icon: '🍽️', title: 'הוסיפו את שלכם', text: 'מארגנים סדר פתוח? הוסיפו אותו למפה ובואו חברים.' },
       ],
       links: [
         { href: '/hagada', label: 'למפה האינטראקטיבית', cardLabel: 'למפה', external: false },
@@ -238,8 +239,8 @@
     {
       id: 'hatecheck',
       emoji: '🛡️',
-      category: 'כלים',
-      tag: 'כלי',
+      category: 'מאבק באנטישמיות',
+      tag: 'AI',
       title: 'HateCheck',
       desc: 'כלי לזיהוי ומעקב אחרי תוכן שנאה ברשת. כי מגיע לנו מרחב מקוון בטוח.',
       status: 'live',
@@ -258,23 +259,23 @@
     {
       id: 'nifgashim',
       emoji: '☕',
-      category: 'קהילה',
-      tag: 'WhatsApp',
+      category: 'הגיל השלישי',
+      tag: 'קהילה',
       title: 'נפגשים בעברית',
-      desc: 'קבוצה לישראלים בגיל 60 ומעלה המתגוררים בהולנד — שיח בעברית, מפגשים, ועזרה הדדית.',
+      desc: 'קהילה לישראלים בגיל 60 ומעלה המתגוררים בהולנד — שיח בעברית, מפגשים חברתיים, ועזרה הדדית.',
       status: 'live',
       theme: 'card-nifgashim',
       heroStyle: 'background: linear-gradient(135deg, #16705F 0%, #1DAA8A 100%);',
-      about: 'קבוצת וואטסאפ לישראלים בגיל 60 ומעלה שגרים בהולנד. מקום לשיח בעברית, מפגשים חברתיים, ועזרה הדדית — כי גיל שלישי בחו"ל הוא גם הרפתקה.',
+      about: 'קהילה לישראלים בגיל 60 ומעלה שגרים בהולנד. מקום לשיח בעברית, מפגשים חברתיים, ועזרה הדדית — כי גיל שלישי בחו"ל הוא גם הרפתקה.',
       details: [
-        { icon: '🗣️', title: 'שיח בעברית', text: 'קבוצה פעילה עם שיחות, שאלות, והמלצות — בעברית, בין ישראלים.' },
+        { icon: '🗣️', title: 'שיח בעברית', text: 'שיחות, שאלות, והמלצות — בעברית, בין ישראלים.' },
         { icon: '☕', title: 'מפגשים חברתיים', text: 'קפה, הליכות, ואירועים לגיל השלישי ברחבי הולנד.' },
         { icon: '🤝', title: 'עזרה הדדית', text: 'שאלות על רפואה, בירוקרטיה, וחיי יומיום — ביחד יותר קל.' },
       ],
       hasForm: true,
       useGoogleSignIn: true,
-      formLabel: 'התחברו עם גוגל להצטרפות',
-      ctaLabel: 'להצטרפות',
+      formLabel: 'התחברו עם גוגל לפרטים נוספים',
+      ctaLabel: 'לפרטים נוספים',
       links: []
     },
     {
@@ -302,9 +303,10 @@
       id: 'business',
       emoji: '🤝',
       category: 'עסקים',
+      tag: 'רשת',
       title: 'Israeli Business Network',
       desc: 'רשת עסקית לישראלים בהולנד. חיבורים, שותפויות, והזדמנויות — בין יזמים ובעלי עסקים בקהילה.',
-      status: 'soon',
+      status: 'live',
       theme: 'card-business',
       heroStyle: 'background: linear-gradient(135deg, #B7791F 0%, #D69E2E 100%);',
       about: 'רשת לחיבור בין יזמים, פרילנסרים, ובעלי עסקים ישראלים בהולנד. שותפויות, לקוחות, וספקים — בתוך הקהילה.',
@@ -315,8 +317,8 @@
       ],
       hasForm: true,
       useGoogleSignIn: true,
-      formLabel: 'השאירו פרטים — נעדכן כשנפתח',
-      ctaLabel: 'עדכנו אותי',
+      formLabel: 'התחברו עם גוגל לפרטים נוספים',
+      ctaLabel: 'לפרטים נוספים',
       links: []
     },
   ];
@@ -385,7 +387,7 @@
 </script>
 
 <svelte:head>
-  <title>israelis.nl — הבית של הישראלים בהולנד</title>
+  <title>israelis.nl — ישראלים: בהולנד</title>
   <meta name="description" content="קהילה, תוכן, כלים ויוזמות לישראלים בהולנד" />
 </svelte:head>
 
@@ -398,7 +400,7 @@
   </div>
   <div class="hero-content">
     <h1 class="hero-logo">israelis<span class="dot">.</span>nl</h1>
-    <p class="hero-tagline">הבית של הישראלים בהולנד</p>
+    <p class="hero-tagline">ישראלים: בהולנד</p>
   </div>
   <div class="hero-scroll-hint">
     <span>גלו עוד</span>
@@ -417,7 +419,7 @@
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
   <div class="project-card {card.theme}" on:click={() => openCard(card)}>
     <span class="card-status {card.status === 'live' ? 'status-live' : 'status-soon'}">
-      {card.status === 'live' ? (card.tag || 'Live') : 'בקרוב'}
+      {card.status === 'live' ? (card.tag || 'Live') : (card.tag || 'בקרוב')}
     </span>
     <span class="card-emoji">{card.emoji}</span>
     <div class="card-category">{card.category}</div>
@@ -460,7 +462,7 @@
       {:else}
         <div class="modal-hero-inner">
           <span class="modal-status {activeCard.status === 'live' ? 'status-live' : 'status-soon'}" class:dark-badge={activeCard.darkHero}>
-            {activeCard.status === 'live' ? (activeCard.tag || 'Live') : 'בקרוב'}
+            {activeCard.status === 'live' ? (activeCard.tag || 'Live') : (activeCard.tag || 'בקרוב')}
           </span>
           <span class="modal-emoji">{activeCard.emoji}</span>
           <div class="modal-category" class:dark-text={activeCard.darkHero}>{activeCard.category}</div>
