@@ -1,9 +1,55 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
 
   let activeCard = null;
   let formValues = {};
   let formStatus = {};
+  let googleAutoFilled = {};
+
+  const GOOGLE_CLIENT_ID = '225623142977-oqtmjp8lr7kt3n2b53ftl37801391021.apps.googleusercontent.com';
+
+  function loadGsi() {
+    return new Promise((resolve) => {
+      if (window.google?.accounts?.id) { resolve(); return; }
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true; script.defer = true;
+      script.onload = resolve;
+      document.head.appendChild(script);
+    });
+  }
+
+  async function initGoogleSignIn(cardId) {
+    await loadGsi();
+    window.google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: (response) => {
+        try {
+          const base64 = response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+          const payload = JSON.parse(atob(base64));
+          formValues = {
+            ...formValues,
+            [cardId]: {
+              ...formValues[cardId],
+              name: payload.name || formValues[cardId]?.name || '',
+              email: payload.email || formValues[cardId]?.email || '',
+            }
+          };
+          googleAutoFilled = { ...googleAutoFilled, [cardId]: true };
+        } catch (e) {
+          console.error('Google sign-in error', e);
+        }
+      },
+    });
+    const container = document.getElementById(`google-signin-btn-${cardId}`);
+    if (container) {
+      window.google.accounts.id.renderButton(container, {
+        theme: 'outline', size: 'large',
+        text: 'signin_with', shape: 'pill',
+        width: container.offsetWidth || 280,
+      });
+    }
+  }
 
   const cards = [
     {
@@ -92,14 +138,14 @@
       id: 'saba',
       emoji: '👴',
       category: 'משפחה',
-      tag: 'WhatsApp',
+      tag: 'קהילה',
       title: 'סבא בא',
-      desc: 'קבוצת וואטסאפ לישראלים שהוריהם באים לביקור בהולנד — טיפים, מסלולים, ועצות מהשטח.',
+      desc: 'קהילה לישראלים שהוריהם באים לביקור בהולנד — טיפים, מסלולים, ועצות מהשטח.',
       status: 'live',
       theme: 'card-saba',
       heroStyle: 'background: white; color: #1a1a2e !important;',
       darkHero: true,
-      about: 'קבוצה לישראלים שסבא וסבתא באים אליהם לביקור בהולנד. שאלות על מה לעשות, לאן ללכת, ואיך לגרום לביקור להיות בלתי נשכח — בקהילה שכבר עברה את זה.',
+      about: 'קהילה לישראלים שסבא וסבתא באים אליהם לביקור בהולנד. שאלות על מה לעשות, לאן ללכת, ואיך לגרום לביקור להיות בלתי נשכח — עם אנשים שכבר עברו את זה.',
       details: [
         { icon: '🗺️', title: 'מסלולים מוכנים', text: 'תכניות ביקור לפי משך השהייה — יומיים, שבוע, שבועיים.' },
         { icon: '🎠', title: 'עם הנכדים', text: 'פעילויות שמתאימות לסבים עם ילדים קטנים.' },
@@ -107,6 +153,10 @@
       ],
       hasForm: true,
       formId: 'mnjgardn',
+      formLabel: 'לפרטים נוספים',
+      formFields: ['name', 'email'],
+      useGoogleSignIn: true,
+      ctaLabel: 'לפרטים נוספים',
       links: []
     },
     {
@@ -229,9 +279,15 @@
   function openCard(card) {
     activeCard = card;
     if (card.hasForm && !formValues[card.id]) {
-      formValues[card.id] = { name: '', phone: '' };
+      const fields = card.formFields || ['name', 'phone'];
+      const init = {};
+      fields.forEach(f => (init[f] = ''));
+      formValues[card.id] = init;
     }
     document.body.style.overflow = 'hidden';
+    if (card.useGoogleSignIn) {
+      tick().then(() => initGoogleSignIn(card.id));
+    }
   }
 
   function closeCard() {
@@ -241,17 +297,15 @@
 
   async function submitForm(card) {
     const data = formValues[card.id];
-    if (!data?.name || !data?.phone) return;
+    const fields = card.formFields || ['name', 'phone'];
+    if (fields.some(f => !data?.[f])) return;
     formStatus = { ...formStatus, [card.id]: 'loading' };
+    const payload = { ...data, _subject: `${card.formLabel || 'בקשת הצטרפות'} — ${card.title}` };
     try {
       const res = await fetch(`https://formspree.io/f/${card.formId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          name: data.name,
-          phone: data.phone,
-          _subject: `בקשת הצטרפות — ${card.title}`,
-        })
+        body: JSON.stringify(payload)
       });
       formStatus = { ...formStatus, [card.id]: res.ok ? 'success' : 'error' };
     } catch {
@@ -333,6 +387,12 @@
         {link.cardLabel} <span class="arrow">←</span>
       </a>
       {/each}
+      {#if card.ctaLabel && card.hasForm}
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <button class="card-link card-cta-btn" style="margin-top:0;" on:click|stopPropagation={() => openCard(card)}>
+        {card.ctaLabel} <span class="arrow">←</span>
+      </button>
+      {/if}
     </div>
   </div>
   {/each}
@@ -390,10 +450,14 @@
           {#if formStatus[activeCard.id] === 'success'}
             <div class="form-success">
               <span class="success-icon">✅</span>
-              <p>קיבלנו! ניצור קשר בקרוב ונוסיף אתכם לקבוצה.</p>
+              <p>{activeCard.useGoogleSignIn ? 'תודה! ניצור קשר בקרוב.' : 'קיבלנו! ניצור קשר בקרוב ונוסיף אתכם לקבוצה.'}</p>
             </div>
           {:else}
-            <p class="form-label">הצטרפות לקבוצה</p>
+            <p class="form-label">{activeCard.formLabel || 'הצטרפות לקבוצה'}</p>
+            {#if activeCard.useGoogleSignIn}
+              <div id="google-signin-btn-{activeCard.id}" class="google-signin-container"></div>
+              <div class="form-divider"><span>או מלאו ידנית</span></div>
+            {/if}
             <form class="join-form" on:submit|preventDefault={() => submitForm(activeCard)}>
               <input
                 type="text"
@@ -401,14 +465,24 @@
                 bind:value={formValues[activeCard.id].name}
                 required
               />
+              {#if (activeCard.formFields || ['name', 'phone']).includes('email')}
+              <input
+                type="email"
+                placeholder="כתובת אימייל *"
+                bind:value={formValues[activeCard.id].email}
+                required
+              />
+              {/if}
+              {#if (activeCard.formFields || ['name', 'phone']).includes('phone')}
               <input
                 type="tel"
                 placeholder="מספר טלפון *"
                 bind:value={formValues[activeCard.id].phone}
                 required
               />
+              {/if}
               <button type="submit" class="submit-btn" disabled={formStatus[activeCard.id] === 'loading'}>
-                {formStatus[activeCard.id] === 'loading' ? 'שולח...' : 'הצטרפות לקבוצה ←'}
+                {formStatus[activeCard.id] === 'loading' ? 'שולח...' : (activeCard.formLabel ? activeCard.formLabel + ' ←' : 'הצטרפות לקבוצה ←')}
               </button>
               {#if formStatus[activeCard.id] === 'error'}
                 <p class="form-error">משהו השתבש. נסו שוב.</p>
@@ -692,6 +766,26 @@
     color: #e53e3e;
     text-align: center;
     margin-top: 0.2rem;
+  }
+
+  .card-cta-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; padding: 0; color: inherit;
+  }
+
+  .google-signin-container {
+    display: flex; justify-content: center;
+    margin-bottom: 0.5rem;
+    min-height: 44px;
+  }
+
+  .form-divider {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin: 0.4rem 0 0.6rem; color: #aaa; font-size: 0.8rem;
+  }
+  .form-divider::before,
+  .form-divider::after {
+    content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.1);
   }
 
   /* Mobile: everything stacked */
