@@ -235,7 +235,7 @@
         { icon: '🍽️', title: 'הוסיפו את שלכם', text: 'מארגנים סדר פתוח? הוסיפו אותו למפה ובואו חברים.' },
       ],
       links: [
-        { href: '/hagada', label: 'למפה האינטראקטיבית', cardLabel: 'למפה', external: false },
+        { href: 'https://sedermap.com', label: 'למפה האינטראקטיבית ←', cardLabel: 'למפה', external: true },
       ]
     },
     {
