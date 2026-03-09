@@ -144,9 +144,11 @@
         { icon: '🤸', title: 'ללא ניסיון קודם', text: 'פתוח לכל הרמות — מתחילות ועד מנוסות.' },
         { icon: '❤️', title: 'קהילה חברתית', text: 'מעבר לספורט — חברויות ורגעים שנשארים.' },
       ],
-      links: [
-        { href: '/nca', label: 'לאתר הליגה', cardLabel: 'לליגה', external: false },
-      ]
+      hasForm: true,
+      useGoogleSignIn: true,
+      formLabel: 'רוצה פרטים נוספים? שוקלת להצטרף? לחצי מטה ונהיה איתך בקשר בהקדם!',
+      ctaLabel: 'לפרטים נוספים',
+      links: []
     },
     {
       id: 'papot',
