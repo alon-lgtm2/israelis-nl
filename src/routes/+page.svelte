@@ -292,6 +292,10 @@
         { icon: '🎯', title: 'הכנה לראיון', text: 'אסטרטגיות וכלים לראיונות בשוק ההולנדי.' },
         { icon: '🔗', title: 'LinkedIn', text: 'אופטימיזציה של הפרופיל למציאת הזדמנויות.' },
       ],
+      hasForm: true,
+      useGoogleSignIn: true,
+      formLabel: 'השאירו פרטים — נעדכן כשנפתח',
+      ctaLabel: 'עדכנו אותי',
       links: []
     },
     {
@@ -309,6 +313,10 @@
         { icon: '💡', title: 'שותפויות', text: 'מציאת שותפים עסקיים בתוך הקהילה הישראלית.' },
         { icon: '📈', title: 'הזדמנויות', text: 'לקוחות, ספקים, ומשקיעים בתוך הרשת.' },
       ],
+      hasForm: true,
+      useGoogleSignIn: true,
+      formLabel: 'השאירו פרטים — נעדכן כשנפתח',
+      ctaLabel: 'עדכנו אותי',
       links: []
     },
   ];
