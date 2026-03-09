@@ -238,6 +238,10 @@ body {
 .card-nifgashim .card-link { color: #A7F3D0; }
 .card-nifgashim::before { background: linear-gradient(135deg, #1A7E6C 0%, #22BF9A 100%); }
 
+.card-elect { background: linear-gradient(135deg, #154B8C 0%, #1E6EC2 100%); color: var(--white); }
+.card-elect .card-link { color: #FED56A; }
+.card-elect::before { background: linear-gradient(135deg, #1A5BA6 0%, #2680D4 100%); }
+
 /* Status Badges */
 .card-status {
   display: inline-block; font-size: 0.7rem; font-weight: 700;
