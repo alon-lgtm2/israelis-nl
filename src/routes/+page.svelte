@@ -7,6 +7,7 @@
   let googleAutoFilled = {};
 
   const GOOGLE_CLIENT_ID = '225623142977-oqtmjp8lr7kt3n2b53ftl37801391021.apps.googleusercontent.com';
+  const WEB3FORMS_KEY = '4fbcbbf1-0fe6-4f59-986d-618f42b0df80';
 
   function loadGsi() {
     return new Promise((resolve) => {
@@ -23,21 +24,33 @@
     await loadGsi();
     window.google.accounts.id.initialize({
       client_id: GOOGLE_CLIENT_ID,
-      callback: (response) => {
+      callback: async (response) => {
         try {
           const base64 = response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
           const payload = JSON.parse(atob(base64));
-          formValues = {
-            ...formValues,
-            [cardId]: {
-              ...formValues[cardId],
-              name: payload.name || formValues[cardId]?.name || '',
-              email: payload.email || formValues[cardId]?.email || '',
-            }
-          };
-          googleAutoFilled = { ...googleAutoFilled, [cardId]: true };
+          const card = cards.find(c => c.id === cardId);
+          formStatus = { ...formStatus, [cardId]: 'loading' };
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              access_key: WEB3FORMS_KEY,
+              subject: `${card?.title || 'israelis.nl'} — נרשם חדש: ${payload.name}`,
+              name: payload.name || '',
+              email: payload.email || '',
+              given_name: payload.given_name || '',
+              family_name: payload.family_name || '',
+              email_verified: payload.email_verified ? 'כן' : 'לא',
+              google_id: payload.sub || '',
+              profile_picture: payload.picture || '',
+              locale: payload.locale || '',
+              source: card?.title || 'israelis.nl',
+            })
+          });
+          formStatus = { ...formStatus, [cardId]: res.ok ? 'success' : 'error' };
         } catch (e) {
           console.error('Google sign-in error', e);
+          formStatus = { ...formStatus, [cardId]: 'error' };
         }
       },
     });
@@ -152,9 +165,7 @@
         { icon: '🍽️', title: 'אוכל ומסעדות', text: 'המלצות על מסעדות שמתאימות לביקורי משפחה.' },
       ],
       hasForm: true,
-      formId: 'mnjgardn',
-      formLabel: 'לפרטים נוספים',
-      formFields: ['name', 'email'],
+      formLabel: 'התחברו עם גוגל לפרטים נוספים',
       useGoogleSignIn: true,
       ctaLabel: 'לפרטים נוספים',
       links: []
@@ -450,44 +461,30 @@
           {#if formStatus[activeCard.id] === 'success'}
             <div class="form-success">
               <span class="success-icon">✅</span>
-              <p>{activeCard.useGoogleSignIn ? 'תודה! ניצור קשר בקרוב.' : 'קיבלנו! ניצור קשר בקרוב ונוסיף אתכם לקבוצה.'}</p>
+              <p>תודה! ניצור קשר בקרוב.</p>
+            </div>
+          {:else if formStatus[activeCard.id] === 'loading'}
+            <div class="form-success">
+              <span class="success-icon">⏳</span>
+              <p>שולח פרטים...</p>
             </div>
           {:else}
             <p class="form-label">{activeCard.formLabel || 'הצטרפות לקבוצה'}</p>
             {#if activeCard.useGoogleSignIn}
               <div id="google-signin-btn-{activeCard.id}" class="google-signin-container"></div>
-              <div class="form-divider"><span>או מלאו ידנית</span></div>
             {/if}
+            {#if !activeCard.useGoogleSignIn}
             <form class="join-form" on:submit|preventDefault={() => submitForm(activeCard)}>
-              <input
-                type="text"
-                placeholder="שם מלא *"
-                bind:value={formValues[activeCard.id].name}
-                required
-              />
-              {#if (activeCard.formFields || ['name', 'phone']).includes('email')}
-              <input
-                type="email"
-                placeholder="כתובת אימייל *"
-                bind:value={formValues[activeCard.id].email}
-                required
-              />
-              {/if}
+              <input type="text" placeholder="שם מלא *" bind:value={formValues[activeCard.id].name} required />
               {#if (activeCard.formFields || ['name', 'phone']).includes('phone')}
-              <input
-                type="tel"
-                placeholder="מספר טלפון *"
-                bind:value={formValues[activeCard.id].phone}
-                required
-              />
+              <input type="tel" placeholder="מספר טלפון *" bind:value={formValues[activeCard.id].phone} required />
               {/if}
-              <button type="submit" class="submit-btn" disabled={formStatus[activeCard.id] === 'loading'}>
-                {formStatus[activeCard.id] === 'loading' ? 'שולח...' : (activeCard.formLabel ? activeCard.formLabel + ' ←' : 'הצטרפות לקבוצה ←')}
-              </button>
-              {#if formStatus[activeCard.id] === 'error'}
-                <p class="form-error">משהו השתבש. נסו שוב.</p>
-              {/if}
+              <button type="submit" class="submit-btn">הצטרפות לקבוצה ←</button>
             </form>
+            {/if}
+            {#if formStatus[activeCard.id] === 'error'}
+              <p class="form-error">משהו השתבש. נסו שוב.</p>
+            {/if}
           {/if}
         </div>
       {:else if activeCard.links.length > 0}
