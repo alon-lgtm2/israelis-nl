@@ -36,7 +36,7 @@ src/
 ├── routes/
 │   ├── +layout.js              # Prerender config (prerender = true)
 │   ├── +layout.svelte          # Shared footer
-│   ├── +page.svelte            # ★ MAIN FILE — homepage with all 15 cards
+│   ├── +page.svelte            # ★ MAIN FILE — homepage with all 12 cards
 │   └── hayom/
 │       └── +page.svelte        # "What are we doing today?" activities page
 static/
@@ -86,7 +86,7 @@ All content lives as **hardcoded JavaScript objects** inside `+page.svelte`. The
 }
 ```
 
-### Current Cards (15 total)
+### Current Cards (12 total)
 
 | ID          | Name               | Status | Google Sign-In | Notes |
 |-------------|--------------------|--------|----------------|-------|
