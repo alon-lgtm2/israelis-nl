@@ -275,7 +275,7 @@
         { icon: '📢', title: 'דיווח', text: 'כלים לדיווח לפלטפורמות ולרשויות.' },
       ],
       links: [
-        { href: '/hatecheck', label: 'לכלי', cardLabel: 'לכלי', external: false },
+        { href: 'https://hatecheck.nl/', label: 'לכלי', cardLabel: 'לכלי', external: true },
       ]
     },
     {
