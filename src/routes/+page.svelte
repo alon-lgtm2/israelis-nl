@@ -107,6 +107,26 @@
       ]
     },
     {
+      id: 'jobs',
+      emoji: '🚀',
+      category: 'קריירה',
+      tag: 'חדש',
+      title: 'מוצאים עבודה בהולנד',
+      desc: 'ייעוץ קריירה אפקטיבי לישראלים בהולנד. איך לחפש, איך להתבלט, ואיך לנחות את התפקיד הבא.',
+      status: 'live',
+      theme: 'card-jobs',
+      heroStyle: 'background: linear-gradient(135deg, #0F3460 0%, #16213E 100%);',
+      about: 'ייעוץ קריירה מותאם לישראלים שמחפשים עבודה בהולנד. שוק העבודה ההולנדי שונה — נעזור לכם לנווט אותו נכון.',
+      details: [
+        { icon: '📄', title: 'CV הולנדי', text: 'CV בפורמט המקומי שעובד עם מגייסים הולנדיים.' },
+        { icon: '🎯', title: 'הכנה לראיון', text: 'אסטרטגיות וכלים לראיונות בשוק ההולנדי.' },
+        { icon: '🔗', title: 'LinkedIn', text: 'אופטימיזציה של הפרופיל למציאת הזדמנויות.' },
+      ],
+      links: [
+        { href: 'https://jobs.israelis.nl/', label: 'למציאת עבודה ←', cardLabel: 'לאתר', external: true },
+      ]
+    },
+    {
       id: 'hitech',
       emoji: '💻',
       category: 'טק וחדשנות',
@@ -278,27 +298,6 @@
       useGoogleSignIn: true,
       formLabel: 'התחברו עם גוגל לפרטים נוספים',
       ctaLabel: 'לפרטים נוספים',
-      links: []
-    },
-    {
-      id: 'jobs',
-      emoji: '🚀',
-      category: 'קריירה',
-      title: 'מוצאים עבודה בהולנד',
-      desc: 'ייעוץ קריירה אפקטיבי לישראלים בהולנד. איך לחפש, איך להתבלט, ואיך לנחות את התפקיד הבא.',
-      status: 'soon',
-      theme: 'card-jobs',
-      heroStyle: 'background: linear-gradient(135deg, #0F3460 0%, #16213E 100%);',
-      about: 'ייעוץ קריירה מותאם לישראלים שמחפשים עבודה בהולנד. שוק העבודה ההולנדי שונה — נעזור לכם לנווט אותו נכון.',
-      details: [
-        { icon: '📄', title: 'CV הולנדי', text: 'CV בפורמט המקומי שעובד עם מגייסים הולנדיים.' },
-        { icon: '🎯', title: 'הכנה לראיון', text: 'אסטרטגיות וכלים לראיונות בשוק ההולנדי.' },
-        { icon: '🔗', title: 'LinkedIn', text: 'אופטימיזציה של הפרופיל למציאת הזדמנויות.' },
-      ],
-      hasForm: true,
-      useGoogleSignIn: true,
-      formLabel: 'השאירו פרטים — נעדכן כשנפתח',
-      ctaLabel: 'עדכנו אותי',
       links: []
     },
     {
