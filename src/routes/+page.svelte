@@ -66,6 +66,26 @@
 
   const cards = [
     {
+      id: 'hatecheck',
+      emoji: '🛡️',
+      category: 'מאבק באנטישמיות',
+      tag: 'AI',
+      title: 'HateCheck',
+      desc: 'כלי לזיהוי ומעקב אחרי תוכן שנאה ברשת. כי מגיע לנו מרחב מקוון בטוח.',
+      status: 'live',
+      theme: 'card-hatecheck',
+      heroStyle: 'background: #1a1a2e;',
+      about: 'כלי המאפשר לדווח, לתעד, ולעקוב אחרי תוכן אנטישמי ותוכן שנאה ברשתות החברתיות. כי מגיע לנו לדעת, ולפעול.',
+      details: [
+        { icon: '🔍', title: 'זיהוי', text: 'זיהוי תוכן אנטישמי וגזעני ברשתות החברתיות.' },
+        { icon: '📊', title: 'מעקב', text: 'תיעוד ומעקב אחרי תוכן שנאה לאורך זמן.' },
+        { icon: '📢', title: 'דיווח', text: 'כלים לדיווח לפלטפורמות ולרשויות.' },
+      ],
+      links: [
+        { href: 'https://hatecheck.nl/', label: 'לכלי', cardLabel: 'לכלי', external: true },
+      ]
+    },
+    {
       id: 'hayom',
       emoji: '🎯',
       category: 'פעילויות',
@@ -238,26 +258,6 @@
       ],
       links: [
         { href: 'https://sedermap.com', label: 'למפה האינטראקטיבית ←', cardLabel: 'למפה', external: true },
-      ]
-    },
-    {
-      id: 'hatecheck',
-      emoji: '🛡️',
-      category: 'מאבק באנטישמיות',
-      tag: 'AI',
-      title: 'HateCheck',
-      desc: 'כלי לזיהוי ומעקב אחרי תוכן שנאה ברשת. כי מגיע לנו מרחב מקוון בטוח.',
-      status: 'live',
-      theme: 'card-hatecheck',
-      heroStyle: 'background: #1a1a2e;',
-      about: 'כלי המאפשר לדווח, לתעד, ולעקוב אחרי תוכן אנטישמי ותוכן שנאה ברשתות החברתיות. כי מגיע לנו לדעת, ולפעול.',
-      details: [
-        { icon: '🔍', title: 'זיהוי', text: 'זיהוי תוכן אנטישמי וגזעני ברשתות החברתיות.' },
-        { icon: '📊', title: 'מעקב', text: 'תיעוד ומעקב אחרי תוכן שנאה לאורך זמן.' },
-        { icon: '📢', title: 'דיווח', text: 'כלים לדיווח לפלטפורמות ולרשויות.' },
-      ],
-      links: [
-        { href: 'https://hatecheck.nl/', label: 'לכלי', cardLabel: 'לכלי', external: true },
       ]
     },
     {
