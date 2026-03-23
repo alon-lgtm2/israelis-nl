@@ -242,6 +242,54 @@
       }
     },
     {
+      id: 'places',
+      emoji: '🗺️',
+      category: 'המלצות',
+      tag: 'מפה',
+      title: 'מקומות מומלצים',
+      desc: 'מסעדות, מוזיאונים וגני משחקים שישראלים בהולנד ממליצים עליהם - על מפה אינטראקטיבית.',
+      status: 'live',
+      theme: 'card-places',
+      heroStyle: 'background: linear-gradient(135deg, #0D9488 0%, #14B8A6 100%);',
+      about: 'מפה אינטראקטיבית של מקומות שישראלים בהולנד ביקרו בהם וממליצים עליהם. מסעדות, מוזיאונים, גני משחקים ועוד - הכל מסונן לפי קטגוריה ומיקום, עם אפשרות להמליץ על מקומות חדשים.',
+      details: [
+        { icon: '🍽️', title: 'מסעדות', text: 'המלצות על מסעדות ובתי קפה ברחבי הולנד - מנוסה על ידי ישראלים.' },
+        { icon: '🏛️', title: 'מוזיאונים', text: 'מוזיאונים ואטרקציות תרבותיות שכדאי לבקר בהם עם המשפחה.' },
+        { icon: '🎡', title: 'גני משחקים', text: 'גני משחקים ומתחמי פעילות לילדים - מקומות שנבדקו על ידי הורים מהקהילה.' },
+      ],
+      links: [
+        { href: 'https://fun.israelis.nl/places.html', label: 'למפה האינטראקטיבית ←', cardLabel: 'למפה', external: true },
+      ],
+      i18n: {
+        nl: {
+          category: 'Aanbevelingen',
+          tag: 'Kaart',
+          title: 'Aanbevolen plekken',
+          desc: "Restaurants, musea en speeltuinen die Israeli's in Nederland aanbevelen - op een interactieve kaart.",
+          about: "Een interactieve kaart met plekken die Israeli's in Nederland hebben bezocht en aanbevelen. Restaurants, musea, speeltuinen en meer - alles gefilterd op categorie en locatie, met de mogelijkheid om nieuwe plekken aan te bevelen.",
+          details: [
+            { title: 'Restaurants', text: "Aanbevelingen voor restaurants en cafes door heel Nederland - getest door Israeli's." },
+            { title: 'Musea', text: 'Musea en culturele attracties die de moeite waard zijn om met het gezin te bezoeken.' },
+            { title: 'Speeltuinen', text: 'Speeltuinen en activiteitencentra voor kinderen - plekken die door ouders uit de community zijn getest.' },
+          ],
+          links: [{ label: 'Naar de interactieve kaart →', cardLabel: 'Naar kaart' }],
+        },
+        en: {
+          category: 'Recommendations',
+          tag: 'Map',
+          title: 'Recommended Places',
+          desc: 'Restaurants, museums, and playgrounds recommended by Israelis in the Netherlands - on an interactive map.',
+          about: 'An interactive map of places Israelis in the Netherlands have visited and recommend. Restaurants, museums, playgrounds and more - all filtered by category and location, with the option to recommend new places.',
+          details: [
+            { title: 'Restaurants', text: 'Restaurant and cafe recommendations across the Netherlands - tested by Israelis.' },
+            { title: 'Museums', text: 'Museums and cultural attractions worth visiting with the family.' },
+            { title: 'Playgrounds', text: 'Playgrounds and activity centers for kids - places tested by parents from the community.' },
+          ],
+          links: [{ label: 'To the interactive map →', cardLabel: 'To map' }],
+        }
+      }
+    },
+    {
       id: 'jobs',
       emoji: '🚀',
       category: 'קריירה',
@@ -357,12 +405,8 @@
         { icon: '🤸', title: 'ללא ניסיון קודם', text: 'פתוח לכל הרמות - מתחילות ועד מנוסות.' },
         { icon: '❤️', title: 'קהילה חברתית', text: 'מעבר לספורט - חברויות ורגעים שנשארים.' },
       ],
-      hasForm: true,
-      useGoogleSignIn: true,
-      formLabel: 'רוצה פרטים נוספים? שוקלת להצטרף? לחצי מטה ונהיה איתך בקשר בהקדם!',
-      ctaLabel: 'לפרטים נוספים',
       links: [
-        { href: 'https://catchball.nl/', label: 'לאתר', cardLabel: 'לאתר', external: true },
+        { href: 'https://catchball.nl/', label: 'לאתר catchball.nl ←', cardLabel: 'לאתר', external: true },
       ],
       i18n: {
         nl: {
@@ -376,9 +420,7 @@
             { title: 'Geen ervaring nodig', text: 'Open voor alle niveaus - van beginners tot gevorderden.' },
             { title: 'Sociale community', text: 'Meer dan sport - vriendschappen en momenten die blijven.' },
           ],
-          formLabel: 'Meer informatie? Overweeg je om mee te doen? Klik hieronder en we nemen snel contact met je op!',
-          ctaLabel: 'Meer informatie',
-          links: [{ label: 'Naar site', cardLabel: 'Naar site' }],
+          links: [{ label: 'Naar catchball.nl →', cardLabel: 'Naar site' }],
         },
         en: {
           category: 'Sports',
@@ -391,9 +433,7 @@
             { title: 'No experience needed', text: 'Open to all levels - from beginners to experienced players.' },
             { title: 'Social community', text: 'Beyond sports - friendships and moments that last.' },
           ],
-          formLabel: 'Want more info? Considering joining? Click below and we will get back to you soon!',
-          ctaLabel: 'More info',
-          links: [{ label: 'To website', cardLabel: 'To website' }],
+          links: [{ label: 'Go to catchball.nl →', cardLabel: 'To website' }],
         }
       }
     },

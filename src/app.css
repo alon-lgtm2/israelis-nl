@@ -243,6 +243,10 @@ body {
 .card-elect .card-link { color: #FED56A; }
 .card-elect::before { background: linear-gradient(135deg, #1A5BA6 0%, #2680D4 100%); }
 
+.card-places { background: linear-gradient(135deg, #0D9488 0%, #14B8A6 100%); color: var(--white); }
+.card-places .card-link { color: #CCFBF1; }
+.card-places::before { background: linear-gradient(135deg, #0F9D90 0%, #17C5B5 100%); }
+
 /* Status Badges */
 .card-status {
   display: inline-block; font-size: 0.7rem; font-weight: 700;
