@@ -192,6 +192,7 @@ body {
 .card-link:hover { gap: 0.8rem; }
 .card-link .arrow { display: inline-block; transition: transform 0.3s ease; font-size: 1.1em; }
 .card-link:hover .arrow { transform: translateX(-4px); }
+[dir="ltr"] .card-link:hover .arrow { transform: translateX(4px); }
 
 /* Card Themes */
 .card-hitech { background: linear-gradient(135deg, #1B2A4A 0%, #2D4373 100%); color: var(--white); }
@@ -248,6 +249,9 @@ body {
   padding: 0.25em 0.75em; border-radius: 100px;
   text-transform: uppercase; letter-spacing: 0.05em;
   position: absolute; top: 1.2rem; left: 1.2rem;
+}
+[dir="ltr"] .card-status {
+  left: auto; right: 1.2rem;
 }
 .status-live { background: rgba(33,163,102,0.2); color: #2ECC71; }
 .status-soon { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }

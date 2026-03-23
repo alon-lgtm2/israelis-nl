@@ -1,10 +1,91 @@
 <script>
   import { onMount, tick } from 'svelte';
+  import { lang } from '$lib/lang.js';
 
   let activeCard = null;
   let formValues = {};
   let formStatus = {};
   let googleAutoFilled = {};
+
+  function setLang(l) {
+    lang.set(l);
+    if (typeof document !== 'undefined') {
+      document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr';
+      document.documentElement.lang = l;
+    }
+  }
+
+  // UI strings
+  const ui = {
+    he: {
+      tagline: 'ישראלים, בהולנד.',
+      sectionTitle: 'הפרויקטים שלנו',
+      sectionDesc: 'קהילה, תוכן, כלים ויוזמות - הכל נבנה מתוך אהבה לקהילה הישראלית בהולנד',
+      discover: 'גלו עוד',
+      formSuccess: 'תודה! ניצור קשר בקרוב.',
+      formLoading: 'שולח פרטים...',
+      formError: 'משהו השתבש. נסו שוב.',
+      comingSoon: 'בקרוב - עקבו אחרינו לעדכונים',
+      live: 'Live',
+      soon: 'בקרוב',
+      joinGroup: 'הצטרפות לקבוצה',
+      fullName: 'שם מלא *',
+      phone: 'מספר טלפון *',
+      metaDesc: 'קהילה, תוכן, כלים ויוזמות לישראלים בהולנד',
+    },
+    nl: {
+      tagline: "Israeli's in Nederland",
+      sectionTitle: 'Onze projecten',
+      sectionDesc: "Community, content, tools en initiatieven - alles gebouwd uit liefde voor de Israelische gemeenschap in Nederland",
+      discover: 'Ontdek meer',
+      formSuccess: 'Bedankt! We nemen snel contact op.',
+      formLoading: 'Gegevens verzenden...',
+      formError: 'Er ging iets mis. Probeer opnieuw.',
+      comingSoon: 'Binnenkort - volg ons voor updates',
+      live: 'Live',
+      soon: 'Binnenkort',
+      joinGroup: 'Word lid',
+      fullName: 'Volledige naam *',
+      phone: 'Telefoonnummer *',
+      metaDesc: "Community, content, tools en initiatieven voor Israeli's in Nederland",
+    },
+    en: {
+      tagline: 'Israelis in the Netherlands',
+      sectionTitle: 'Our Projects',
+      sectionDesc: 'Community, content, tools and initiatives - all built with love for the Israeli community in the Netherlands',
+      discover: 'Discover more',
+      formSuccess: 'Thank you! We will be in touch soon.',
+      formLoading: 'Sending details...',
+      formError: 'Something went wrong. Please try again.',
+      comingSoon: 'Coming soon - follow us for updates',
+      live: 'Live',
+      soon: 'Coming soon',
+      joinGroup: 'Join group',
+      fullName: 'Full name *',
+      phone: 'Phone number *',
+      metaDesc: 'Community, content, tools and initiatives for Israelis in the Netherlands',
+    }
+  };
+
+  function u(l, key) { return ui[l]?.[key] ?? ui.he[key]; }
+
+  function t(l, card, field) {
+    if (l === 'he') return card[field];
+    return card.i18n?.[l]?.[field] ?? card[field];
+  }
+
+  function tDetail(l, card, idx) {
+    if (l === 'he') return card.details[idx];
+    const translated = card.i18n?.[l]?.details?.[idx];
+    return translated ? { ...card.details[idx], ...translated } : card.details[idx];
+  }
+
+  function tLink(l, card, idx, field) {
+    if (l === 'he') return card.links[idx]?.[field];
+    return card.i18n?.[l]?.links?.[idx]?.[field] ?? card.links[idx]?.[field];
+  }
+
+  function arrow(l) { return l === 'he' ? '←' : '→'; }
 
   const GOOGLE_CLIENT_ID = '225623142977-oqtmjp8lr7kt3n2b53ftl37801391021.apps.googleusercontent.com';
   const WEB3FORMS_KEY = '4fbcbbf1-0fe6-4f59-986d-618f42b0df80';
@@ -83,7 +164,33 @@
       ],
       links: [
         { href: 'https://hatecheck.nl/', label: 'לכלי', cardLabel: 'לכלי', external: true },
-      ]
+      ],
+      i18n: {
+        nl: {
+          category: 'Bestrijding antisemitisme',
+          title: 'HateCheck',
+          desc: 'Een tool voor het detecteren en monitoren van online haatcontent. Want we verdienen een veilige online ruimte.',
+          about: 'Een tool waarmee je antisemitische en haatdragende content op sociale media kunt melden, documenteren en monitoren. Want we verdienen het om te weten en te handelen.',
+          details: [
+            { title: 'Detectie', text: 'Detectie van antisemitische en racistische content op sociale media.' },
+            { title: 'Monitoring', text: 'Documentatie en monitoring van haatcontent door de tijd heen.' },
+            { title: 'Melding', text: 'Tools om te melden bij platforms en autoriteiten.' },
+          ],
+          links: [{ label: 'Naar de tool', cardLabel: 'Naar tool' }],
+        },
+        en: {
+          category: 'Fighting Antisemitism',
+          title: 'HateCheck',
+          desc: 'A tool for detecting and monitoring online hate content. Because we deserve a safe online space.',
+          about: 'A tool that enables reporting, documenting, and tracking antisemitic and hate content on social media. Because we deserve to know and to act.',
+          details: [
+            { title: 'Detection', text: 'Detection of antisemitic and racist content on social media.' },
+            { title: 'Monitoring', text: 'Documentation and tracking of hate content over time.' },
+            { title: 'Reporting', text: 'Tools for reporting to platforms and authorities.' },
+          ],
+          links: [{ label: 'Go to tool', cardLabel: 'Go to tool' }],
+        }
+      }
     },
     {
       id: 'hayom',
@@ -103,8 +210,36 @@
         { icon: '👨‍👩‍👧', title: 'לכל המשפחה', text: 'מותאם לילדים בכל הגילאים - ממוזיקה ועד ספורט, מאמנות ועד טבע.' },
       ],
       links: [
-        { href: 'https://www.facebook.com/groups/907652610513541', label: 'קחו אותי לשם! ←', cardLabel: 'לפעילויות', external: true },
-      ]
+        { href: 'https://fun.israelis.nl', label: 'קחו אותי לשם! ←', cardLabel: 'לפעילויות', external: true },
+      ],
+      i18n: {
+        nl: {
+          category: 'Activiteiten',
+          tag: 'Vrije tijd',
+          title: 'Wat doen we vandaag?',
+          desc: 'Aanbevelingen voor evenementen en activiteiten voor kinderen in Nederland - elk weekend opnieuw.',
+          about: 'Ouders van kinderen in Nederland die op zoek zijn naar weekendactiviteiten? Nederland biedt een overvloed aan culturele en entertainment evenementen voor kinderen - maar er is geen centrale plek die ze bundelt. Deze groep is de oplossing.',
+          details: [
+            { title: 'Elk weekend', text: 'Wekelijkse posts met evenementen voor het komende weekend - zodat je vooruit kunt plannen.' },
+            { title: 'Lokaal en echt', text: 'Geen Nemo, geen Giethoorn. Unieke evenementen op een specifieke plek en datum.' },
+            { title: 'Voor het hele gezin', text: 'Geschikt voor kinderen van alle leeftijden - van muziek tot sport, van kunst tot natuur.' },
+          ],
+          links: [{ label: 'Breng me daar! →', cardLabel: 'Activiteiten' }],
+        },
+        en: {
+          category: 'Activities',
+          tag: 'Leisure',
+          title: 'So What Are We Doing Today?',
+          desc: 'Recommendations for events and activities for kids in the Netherlands - every weekend.',
+          about: 'Parents of children in the Netherlands looking for weekend activities? The Netherlands offers plenty of cultural and entertainment events for kids - but there is no single place that aggregates them. This group is the solution.',
+          details: [
+            { title: 'Every weekend', text: 'Weekly posts with events for the upcoming weekend - so you can plan ahead.' },
+            { title: 'Local and real', text: 'Not Nemo, not Giethoorn. Unique events at a specific place and date.' },
+            { title: 'For the whole family', text: 'Suitable for children of all ages - from music to sports, from art to nature.' },
+          ],
+          links: [{ label: 'Take me there! →', cardLabel: 'Activities' }],
+        }
+      }
     },
     {
       id: 'jobs',
@@ -124,7 +259,35 @@
       ],
       links: [
         { href: 'https://jobs.israelis.nl/', label: 'למציאת עבודה ←', cardLabel: 'לאתר', external: true },
-      ]
+      ],
+      i18n: {
+        nl: {
+          category: 'Carriere',
+          tag: 'Nieuw',
+          title: 'Werk vinden in Nederland',
+          desc: "Effectief carriere-advies voor Israeli's in Nederland. Hoe te zoeken, hoe op te vallen, en hoe je volgende baan te bemachtigen.",
+          about: "Op maat gemaakt carriere-advies voor Israeli's die werk zoeken in Nederland. De Nederlandse arbeidsmarkt is anders - wij helpen je er goed doorheen te navigeren.",
+          details: [
+            { title: 'Nederlands CV', text: 'Een CV in het lokale formaat dat werkt bij Nederlandse recruiters.' },
+            { title: 'Sollicitatietraining', text: 'Strategieen en tools voor sollicitatiegesprekken op de Nederlandse markt.' },
+            { title: 'LinkedIn', text: 'Profieloptimalisatie om kansen te vinden.' },
+          ],
+          links: [{ label: 'Vind een baan →', cardLabel: 'Naar site' }],
+        },
+        en: {
+          category: 'Careers',
+          tag: 'New',
+          title: 'Finding a Job in the Netherlands',
+          desc: 'Effective career advice for Israelis in the Netherlands. How to search, how to stand out, and how to land your next role.',
+          about: 'Career advice tailored for Israelis looking for work in the Netherlands. The Dutch job market is different - we will help you navigate it successfully.',
+          details: [
+            { title: 'Dutch CV', text: 'A CV in the local format that works with Dutch recruiters.' },
+            { title: 'Interview prep', text: 'Strategies and tools for interviews in the Dutch market.' },
+            { title: 'LinkedIn', text: 'Profile optimization for finding opportunities.' },
+          ],
+          links: [{ label: 'Find a job →', cardLabel: 'To site' }],
+        }
+      }
     },
     {
       id: 'hitech',
@@ -146,7 +309,37 @@
       note: 'הקהילה שומרת על שיח מקצועי ואיכותי. פרסום מסחרי וקידום עצמי מתאפשרים במסגרת שיתופי פעולה רשמיים בלבד - לפרטים, פנו לאדמינים.',
       links: [
         { href: 'https://www.facebook.com/groups/426953251245124', label: 'הצטרפו לקהילה ←', cardLabel: 'לקהילה', external: true },
-      ]
+      ],
+      i18n: {
+        nl: {
+          category: 'Tech & Innovatie',
+          tag: 'Professioneel netwerk',
+          title: "Israeli's in de Tech in Nederland",
+          desc: "Het toonaangevende professionele netwerk in Europa voor de Israelische tech- en innovatiegemeenschap in Nederland.",
+          about: "Het professionele thuis van de Israelische tech- en innovatiegemeenschap in Nederland. De groep dient als centraal knooppunt voor ondernemers, managers, investeerders en ontwikkelaars - gericht op kwalitatief netwerken, strategische kennisdeling en groeikansen in de lokale industrie.",
+          details: [
+            { title: 'Kennis & Markt', text: 'Professionele discussies, inzichten en voorspellingen, en actuele marktanalyses over het Nederlandse ecosysteem.' },
+            { title: 'Vacaturebord', text: 'High-Tech en Corporate posities in Nederland en Europa - rechtstreeks van bedrijven en recruiters binnen de community.' },
+            { title: 'Zakelijke connecties', text: 'Netwerken, samenwerkingen en kennismakingen tussen ondernemers, managers en investeerders die echte kansen creeren.' },
+          ],
+          note: 'De community handhaaft een professioneel en kwalitatief gesprek. Commerciele advertenties en zelfpromotie zijn alleen mogelijk via officiele samenwerkingen - neem contact op met de admins voor details.',
+          links: [{ label: 'Sluit je aan →', cardLabel: 'Naar community' }],
+        },
+        en: {
+          category: 'Tech & Innovation',
+          tag: 'Professional network',
+          title: 'Israeli Tech in the Netherlands',
+          desc: "Europe's leading professional network for the Israeli tech and innovation community in the Netherlands.",
+          about: 'The professional home of the Israeli tech and innovation community in the Netherlands. The group serves as a central hub for entrepreneurs, managers, investors, and developers - aimed at quality networking, strategic knowledge sharing, and growth opportunities in the local industry.',
+          details: [
+            { title: 'Knowledge & Market', text: 'Professional discussions, insights and forecasts, and current market analyses of the Dutch ecosystem.' },
+            { title: 'Job Board', text: 'High-Tech and Corporate positions in the Netherlands and Europe - directly from companies and recruiters within the community.' },
+            { title: 'Business Connections', text: 'Networking, collaborations, and introductions between entrepreneurs, managers, and investors that create real opportunities.' },
+          ],
+          note: 'The community maintains a professional and quality discourse. Commercial advertising and self-promotion are only allowed through official collaborations - contact the admins for details.',
+          links: [{ label: 'Join the community →', cardLabel: 'To community' }],
+        }
+      }
     },
     {
       id: 'nca',
@@ -169,8 +362,40 @@
       formLabel: 'רוצה פרטים נוספים? שוקלת להצטרף? לחצי מטה ונהיה איתך בקשר בהקדם!',
       ctaLabel: 'לפרטים נוספים',
       links: [
-        { href: 'https://chatchball.nl/', label: 'לאתר', cardLabel: 'לאתר', external: true },
-      ]
+        { href: 'https://catchball.nl/', label: 'לאתר', cardLabel: 'לאתר', external: true },
+      ],
+      i18n: {
+        nl: {
+          category: 'Sport',
+          tag: 'Sport',
+          title: 'NCA Moedercompetitie',
+          desc: 'De Nederlandse moedercompetitie in catchball. Sport, plezier en community voor Israelische moeders in Nederland.',
+          about: 'Een catchball-competitie voor Israelische moeders in Nederland. Sport, competitie en vriendschap - want moeders verdienen ook tijd voor zichzelf.',
+          details: [
+            { title: 'Competitie', text: 'Speelseizoenen met teams uit heel Nederland.' },
+            { title: 'Geen ervaring nodig', text: 'Open voor alle niveaus - van beginners tot gevorderden.' },
+            { title: 'Sociale community', text: 'Meer dan sport - vriendschappen en momenten die blijven.' },
+          ],
+          formLabel: 'Meer informatie? Overweeg je om mee te doen? Klik hieronder en we nemen snel contact met je op!',
+          ctaLabel: 'Meer informatie',
+          links: [{ label: 'Naar site', cardLabel: 'Naar site' }],
+        },
+        en: {
+          category: 'Sports',
+          tag: 'Sports',
+          title: 'NCA Moms League',
+          desc: 'The Dutch moms league in catchball. Sports, fun, and community for Israeli moms in the Netherlands.',
+          about: 'A catchball league for Israeli moms in the Netherlands. Sports, competition, and friendship - because moms deserve time for themselves too.',
+          details: [
+            { title: 'Competitive league', text: 'Game seasons with teams from across the Netherlands.' },
+            { title: 'No experience needed', text: 'Open to all levels - from beginners to experienced players.' },
+            { title: 'Social community', text: 'Beyond sports - friendships and moments that last.' },
+          ],
+          formLabel: 'Want more info? Considering joining? Click below and we will get back to you soon!',
+          ctaLabel: 'More info',
+          links: [{ label: 'To website', cardLabel: 'To website' }],
+        }
+      }
     },
     {
       id: 'papot',
@@ -192,7 +417,37 @@
       useGoogleSignIn: true,
       formLabel: 'התחברו עם גוגל להצטרפות',
       ctaLabel: 'להצטרפות',
-      links: []
+      links: [],
+      i18n: {
+        nl: {
+          category: 'Ouderschap',
+          tag: 'Community',
+          title: 'Papot Amstelveen',
+          desc: 'De Israelische oudergemeenschap in Amstelveen en omgeving. Tips, bijeenkomsten en onderlinge steun.',
+          about: 'Een community van Israelische ouders die samen opgroeien in Amstelveen. Vragen over scholen, kinderdagverblijven, artsen en activiteiten - in een vertrouwde omgeving.',
+          details: [
+            { title: 'Onderwijs & Scholen', text: 'Aanbevelingen voor kinderdagverblijven, scholen en onderwijs in Nederland.' },
+            { title: 'Bijeenkomsten', text: "Barbecues, feestdagen en kinderactiviteiten samen." },
+            { title: 'Onderlinge steun', text: 'Want kinderen opvoeden in het buitenland doe je samen.' },
+          ],
+          formLabel: 'Log in met Google om lid te worden',
+          ctaLabel: 'Word lid',
+        },
+        en: {
+          category: 'Parenting',
+          tag: 'Community',
+          title: 'Papot Amstelveen',
+          desc: 'The Israeli parents community in Amstelveen and surroundings. Tips, meetups, and mutual support.',
+          about: 'A community of Israeli parents growing together in Amstelveen. Questions about schools, daycares, doctors, and activities - in a familiar environment.',
+          details: [
+            { title: 'Education & Schools', text: 'Recommendations for daycares, schools, and education in the Netherlands.' },
+            { title: 'Meetups', text: 'Barbecues, holidays, and kids activities together.' },
+            { title: 'Mutual support', text: 'Because raising kids abroad is better together.' },
+          ],
+          formLabel: 'Sign in with Google to join',
+          ctaLabel: 'Join',
+        }
+      }
     },
     {
       id: 'saba',
@@ -215,7 +470,37 @@
       formLabel: 'התחברו עם גוגל לפרטים נוספים',
       useGoogleSignIn: true,
       ctaLabel: 'לפרטים נוספים',
-      links: []
+      links: [],
+      i18n: {
+        nl: {
+          category: 'Familie',
+          tag: 'Community',
+          title: 'Opa Komt',
+          desc: "Landen je ouders volgende week? Een community voor Israeli's die bejaarde ouders ontvangen voor een lang bezoek in Nederland - tips, routes en advies uit de praktijk.",
+          about: "Een plek voor Israeli's die bejaarde ouders wekenlang ontvangen in Nederland. Wat te doen met opa als Amsterdam 'op' is? Waar neem je oma mee als ze moeilijk loopt? Hoe leg je aan de huisarts uit wat er pijn doet? Hier vind je mensen die het al hebben meegemaakt - en het weten.",
+          details: [
+            { title: 'Routes per verblijfsduur', text: 'Bezoekplannen voor een week, twee weken en meer - inclusief opties voor wie moeite heeft met lang lopen.' },
+            { title: 'Gezondheid & Bureaucratie', text: 'Artsen, medicijnen, reisverzekeringen - alles wat je moet weten voor en tijdens het bezoek.' },
+            { title: 'Tips uit de praktijk', text: 'Restaurants, activiteiten en tips die werken - van families die het al hebben gedaan.' },
+          ],
+          formLabel: 'Log in met Google voor meer informatie',
+          ctaLabel: 'Meer informatie',
+        },
+        en: {
+          category: 'Family',
+          tag: 'Community',
+          title: 'Grandpa Is Coming',
+          desc: 'Parents landing next week? A community for Israelis hosting elderly parents for extended visits in the Netherlands - tips, routes, and field advice.',
+          about: "A place for Israelis hosting elderly parents for weeks in the Netherlands. What to do with grandpa when Amsterdam is done? Where to take grandma who has trouble walking? How to explain to the doctor what hurts? Here you'll find people who have been through it - and know.",
+          details: [
+            { title: 'Routes by stay duration', text: 'Visit plans for one week, two weeks, and more - including options for those with limited mobility.' },
+            { title: 'Health & Bureaucracy', text: 'Doctors, medications, travel insurance - everything you need to know before and during the visit.' },
+            { title: 'Field recommendations', text: 'Restaurants, activities, and tips that work - from families who have done it.' },
+          ],
+          formLabel: 'Sign in with Google for more info',
+          ctaLabel: 'More info',
+        }
+      }
     },
     {
       id: 'holland',
@@ -238,7 +523,37 @@
       useGoogleSignIn: true,
       formLabel: 'התחברו עם גוגל להצטרפות',
       ctaLabel: 'להצטרפות',
-      links: []
+      links: [],
+      i18n: {
+        nl: {
+          category: 'Muziek',
+          tag: 'WhatsApp',
+          title: 'Klassiek Nederland',
+          desc: 'WhatsApp-groep voor liefhebbers van klassieke muziek in Nederland - concerten, aanbevelingen en muzikaal gesprek.',
+          about: 'Een community speciaal voor liefhebbers van klassieke muziek in Nederland. Concertgebouw en Rotterdams Philharmonisch, albumaanbevelingen en muzikaal gesprek.',
+          details: [
+            { title: 'Concerten', text: 'Updates over optredens en toonaangevende orkesten in Nederland - inclusief het Concertgebouw.' },
+            { title: 'Muziekaanbevelingen', text: 'Het delen van favorieten, ontdekkingen en werken die de moeite waard zijn.' },
+            { title: 'Muzikale community', text: 'Verbinding tussen muzikanten, docenten en liefhebbers van klassieke muziek.' },
+          ],
+          formLabel: 'Log in met Google om lid te worden',
+          ctaLabel: 'Word lid',
+        },
+        en: {
+          category: 'Music',
+          tag: 'WhatsApp',
+          title: 'Classical Holland',
+          desc: 'WhatsApp group for classical music lovers in the Netherlands - concerts, recommendations, and musical discussion.',
+          about: 'A community dedicated to classical music lovers in the Netherlands. Concertgebouw and Rotterdam Philharmonic concerts, album recommendations, and musical discussion.',
+          details: [
+            { title: 'Concerts', text: 'Updates on performances and leading orchestras in the Netherlands - including Concertgebouw.' },
+            { title: 'Music recommendations', text: 'Sharing favorites, discoveries, and works worth knowing.' },
+            { title: 'Musical community', text: 'Connecting musicians, teachers, and classical music lovers.' },
+          ],
+          formLabel: 'Sign in with Google to join',
+          ctaLabel: 'Join',
+        }
+      }
     },
     {
       id: 'hagada',
@@ -258,7 +573,35 @@
       ],
       links: [
         { href: 'https://sedermap.com', label: 'למפה האינטראקטיבית ←', cardLabel: 'למפה', external: true },
-      ]
+      ],
+      i18n: {
+        nl: {
+          category: 'Feestdagen',
+          tag: 'Pesach',
+          title: 'Haggadah op de Kaart',
+          desc: 'Op zoek naar een seder in Nederland? Interactieve kaart van openbare Pesach-seders, gemeenschappen en feestdagevenementen door heel het land.',
+          about: 'Geinspireerd door sedermap.com - een kaart die openbare Pesach-seders, feestdagevenementen en Israelische en Chabad-gemeenschappen in Nederland bundelt. Of je nu een open seder zoekt, er een wilt organiseren, of gewoon wilt weten wat er bij jou in de buurt gebeurt - het staat hier allemaal.',
+          details: [
+            { title: 'Openbare Pesach-seders', text: 'Open seders van gemeenschappen, synagogen en Chabad door heel Nederland.' },
+            { title: 'Op locatie', text: 'Vind feestdagevenementen bij jou in de buurt - in Amsterdam, Rotterdam, Den Haag en door heel het land.' },
+            { title: 'Voeg de jouwe toe', text: 'Organiseer je een open seder? Voeg het toe aan de kaart en nodig vrienden uit.' },
+          ],
+          links: [{ label: 'Naar de interactieve kaart →', cardLabel: 'Naar kaart' }],
+        },
+        en: {
+          category: 'Holidays',
+          tag: 'Passover',
+          title: 'Haggadah on the Map',
+          desc: 'Looking for a Passover seder in the Netherlands? Interactive map of public seders, communities, and holiday events across the country.',
+          about: 'Inspired by sedermap.com - a map that aggregates public Passover seders, holiday events, and Israeli and Chabad communities in the Netherlands. Whether you are looking for an open seder, want to organize one, or just want to know what is happening near you - it is all here.',
+          details: [
+            { title: 'Public Passover seders', text: 'Open seders from communities, synagogues, and Chabad across the Netherlands.' },
+            { title: 'By location', text: 'Find holiday events near you - in Amsterdam, Rotterdam, The Hague, and across the country.' },
+            { title: 'Add yours', text: 'Organizing an open seder? Add it to the map and invite friends.' },
+          ],
+          links: [{ label: 'To the interactive map →', cardLabel: 'To map' }],
+        }
+      }
     },
     {
       id: 'nifgashim',
@@ -280,7 +623,37 @@
       useGoogleSignIn: true,
       formLabel: 'התחברו עם גוגל לפרטים נוספים',
       ctaLabel: 'לפרטים נוספים',
-      links: []
+      links: [],
+      i18n: {
+        nl: {
+          category: 'Senioren',
+          tag: 'Community',
+          title: 'Ontmoeten in het Hebreeuws',
+          desc: "Een community voor Israeli's van 60+ in Nederland - gesprekken in het Hebreeuws, sociale bijeenkomsten en onderlinge hulp.",
+          about: "Een community voor Israeli's van 60 en ouder die in Nederland wonen. Een plek voor gesprekken in het Hebreeuws, sociale bijeenkomsten en onderlinge hulp - want het derde levensfase in het buitenland is ook een avontuur.",
+          details: [
+            { title: 'Gesprekken in het Hebreeuws', text: "Gesprekken, vragen en aanbevelingen - in het Hebreeuws, tussen Israeli's." },
+            { title: 'Sociale bijeenkomsten', text: 'Koffie, wandelingen en evenementen voor senioren door heel Nederland.' },
+            { title: 'Onderlinge hulp', text: 'Vragen over gezondheidszorg, bureaucratie en het dagelijks leven - samen is het makkelijker.' },
+          ],
+          formLabel: 'Log in met Google voor meer informatie',
+          ctaLabel: 'Meer informatie',
+        },
+        en: {
+          category: 'Seniors',
+          tag: 'Community',
+          title: 'Meeting in Hebrew',
+          desc: 'A community for Israelis aged 60+ living in the Netherlands - Hebrew conversations, social meetups, and mutual help.',
+          about: 'A community for Israelis aged 60 and over living in the Netherlands. A place for Hebrew conversations, social meetups, and mutual help - because the third age abroad is also an adventure.',
+          details: [
+            { title: 'Hebrew conversations', text: 'Chats, questions, and recommendations - in Hebrew, among Israelis.' },
+            { title: 'Social meetups', text: 'Coffee, walks, and events for seniors across the Netherlands.' },
+            { title: 'Mutual help', text: 'Questions about healthcare, bureaucracy, and daily life - together it is easier.' },
+          ],
+          formLabel: 'Sign in with Google for more info',
+          ctaLabel: 'More info',
+        }
+      }
     },
     {
       id: 'business',
@@ -302,7 +675,37 @@
       useGoogleSignIn: true,
       formLabel: 'התחברו עם גוגל לפרטים נוספים',
       ctaLabel: 'לפרטים נוספים',
-      links: []
+      links: [],
+      i18n: {
+        nl: {
+          category: 'Zakelijk',
+          tag: 'Netwerk',
+          title: 'Israeli Business Network',
+          desc: "Een zakelijk netwerk voor Israeli's in Nederland. Connecties, partnerschappen en kansen - tussen ondernemers en bedrijfseigenaren in de community.",
+          about: "Een netwerk dat Israelische ondernemers, freelancers en bedrijfseigenaren in Nederland met elkaar verbindt. Partnerschappen, klanten en leveranciers - binnen de community.",
+          details: [
+            { title: 'Connecties', text: "Tussen Israelische ondernemers, freelancers en bedrijfseigenaren in Nederland." },
+            { title: 'Partnerschappen', text: 'Het vinden van zakelijke partners binnen de Israelische gemeenschap.' },
+            { title: 'Kansen', text: 'Klanten, leveranciers en investeerders binnen het netwerk.' },
+          ],
+          formLabel: 'Log in met Google voor meer informatie',
+          ctaLabel: 'Meer informatie',
+        },
+        en: {
+          category: 'Business',
+          tag: 'Network',
+          title: 'Israeli Business Network',
+          desc: 'A business network for Israelis in the Netherlands. Connections, partnerships, and opportunities - among entrepreneurs and business owners in the community.',
+          about: 'A network connecting Israeli entrepreneurs, freelancers, and business owners in the Netherlands. Partnerships, clients, and suppliers - within the community.',
+          details: [
+            { title: 'Connections', text: 'Among Israeli entrepreneurs, freelancers, and business owners in the Netherlands.' },
+            { title: 'Partnerships', text: 'Finding business partners within the Israeli community.' },
+            { title: 'Opportunities', text: 'Clients, suppliers, and investors within the network.' },
+          ],
+          formLabel: 'Sign in with Google for more info',
+          ctaLabel: 'More info',
+        }
+      }
     },
     {
       id: 'elect',
@@ -322,7 +725,35 @@
       ],
       links: [
         { href: '/elect', label: 'למדריך הבחירות ←', cardLabel: 'למדריך', external: false },
-      ]
+      ],
+      i18n: {
+        nl: {
+          category: 'Verkiezingen',
+          tag: 'Nieuw',
+          title: 'Gemeenteraadsverkiezingen 2026',
+          desc: 'De gemeenteraadsverkiezingen in Nederland komen eraan. Alles wat je moet weten om te stemmen - in het Hebreeuws.',
+          about: 'De gemeenteraadsverkiezingen zijn onze kans om invloed uit te oefenen. Als je de Nederlandse nationaliteit hebt - heb je een stem. Deze gids legt alles stap voor stap uit.',
+          details: [
+            { title: 'Wie mag stemmen?', text: 'Nederlandse staatsburgers en EU-ingezetenen die bij de gemeente staan ingeschreven - inclusief Israelis met dubbele nationaliteit.' },
+            { title: 'Wanneer?', text: 'Gemeenteraadsverkiezingen 2026. De gids bevat alle stappen voor de verkiezingsdag.' },
+            { title: 'Hoe stem je?', text: 'Stempas, stembureau en hoe je het stembiljet invult - stap voor stap.' },
+          ],
+          links: [{ label: 'Naar de verkiezingsgids →', cardLabel: 'Naar gids' }],
+        },
+        en: {
+          category: 'Elections',
+          tag: 'New',
+          title: 'Municipal Elections 2026',
+          desc: 'The Dutch municipal elections are coming. Everything you need to know to vote - in Hebrew.',
+          about: 'The local government elections in the Netherlands are our opportunity to make an impact. If you have Dutch citizenship - you have a voice. This guide explains everything step by step.',
+          details: [
+            { title: 'Who can vote?', text: 'Dutch citizens and EU residents registered with the municipality - including Israelis with dual citizenship.' },
+            { title: 'When?', text: 'Municipal elections 2026. The guide includes all steps before election day.' },
+            { title: 'How to vote?', text: 'Voting card, polling station, and how to fill in the ballot - step by step.' },
+          ],
+          links: [{ label: 'To the elections guide →', cardLabel: 'To guide' }],
+        }
+      }
     },
   ];
 
@@ -390,9 +821,16 @@
 </script>
 
 <svelte:head>
-  <title>israelis.nl - ישראלים: בהולנד</title>
-  <meta name="description" content="קהילה, תוכן, כלים ויוזמות לישראלים בהולנד" />
+  <title>israelis.nl - {u($lang, 'tagline')}</title>
+  <meta name="description" content={u($lang, 'metaDesc')} />
 </svelte:head>
+
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-bar">
+  <button class="lang-btn" class:active={$lang === 'he'} on:click={() => setLang('he')}>HE</button>
+  <button class="lang-btn" class:active={$lang === 'nl'} on:click={() => setLang('nl')}>NL</button>
+  <button class="lang-btn" class:active={$lang === 'en'} on:click={() => setLang('en')}>EN</button>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -403,18 +841,18 @@
   </div>
   <div class="hero-content">
     <h1 class="hero-logo">israelis<span class="dot">.</span>nl</h1>
-    <p class="hero-tagline">ישראלים: בהולנד</p>
+    <p class="hero-tagline">{u($lang, 'tagline')}</p>
   </div>
   <div class="hero-scroll-hint">
-    <span>גלו עוד</span>
+    <span>{u($lang, 'discover')}</span>
     <div class="scroll-arrow"></div>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <div class="section-intro">
-  <h2>הפרויקטים שלנו</h2>
-  <p>קהילה, תוכן, כלים ויוזמות - הכל נבנה מתוך אהבה לקהילה הישראלית בהולנד</p>
+  <h2>{u($lang, 'sectionTitle')}</h2>
+  <p>{u($lang, 'sectionDesc')}</p>
 </div>
 
 <div class="projects">
@@ -422,25 +860,25 @@
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
   <div class="project-card {card.theme}" on:click={() => openCard(card)}>
     <span class="card-status {card.status === 'live' ? 'status-live' : 'status-soon'}">
-      {card.status === 'live' ? (card.tag || 'Live') : (card.tag || 'בקרוב')}
+      {card.status === 'live' ? (t($lang, card, 'tag') || u($lang, 'live')) : (t($lang, card, 'tag') || u($lang, 'soon'))}
     </span>
     <span class="card-emoji">{card.emoji}</span>
-    <div class="card-category">{card.category}</div>
-    <div class="card-title">{card.title}</div>
-    <div class="card-desc">{card.desc}</div>
+    <div class="card-category">{t($lang, card, 'category')}</div>
+    <div class="card-title">{t($lang, card, 'title')}</div>
+    <div class="card-desc">{t($lang, card, 'desc')}</div>
     <div style="display:flex; gap:0.8rem; margin-top:1.2rem; flex-wrap:wrap;">
-      {#each card.links as link}
+      {#each card.links as link, i}
       <a href={link.href} class="card-link" style="margin-top:0;"
-         target={link.external ? '_blank' : '_self'}
-         rel={link.external ? 'noopener' : ''}
+         target="_blank"
+         rel="noopener"
          on:click|stopPropagation>
-        {link.cardLabel} <span class="arrow">←</span>
+        {tLink($lang, card, i, 'cardLabel')} <span class="arrow">{arrow($lang)}</span>
       </a>
       {/each}
-      {#if card.ctaLabel && card.hasForm}
+      {#if card.hasForm}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <button class="card-link card-cta-btn" style="margin-top:0;" on:click|stopPropagation={() => openCard(card)}>
-        {card.ctaLabel} <span class="arrow">←</span>
+        {t($lang, card, 'ctaLabel') || card.ctaLabel} <span class="arrow">{arrow($lang)}</span>
       </button>
       {/if}
     </div>
@@ -461,38 +899,38 @@
     <!-- LEFT/TOP: HERO PANEL -->
     <div class="modal-hero" style={activeCard.heroStyle}>
       {#if activeCard.banner}
-        <img src={activeCard.banner} alt={activeCard.title} class="modal-banner" />
+        <img src={activeCard.banner} alt={t($lang, activeCard, 'title')} class="modal-banner" />
       {:else}
         <div class="modal-hero-inner">
           <span class="modal-status {activeCard.status === 'live' ? 'status-live' : 'status-soon'}" class:dark-badge={activeCard.darkHero}>
-            {activeCard.status === 'live' ? (activeCard.tag || 'Live') : (activeCard.tag || 'בקרוב')}
+            {activeCard.status === 'live' ? (t($lang, activeCard, 'tag') || u($lang, 'live')) : (t($lang, activeCard, 'tag') || u($lang, 'soon'))}
           </span>
           <span class="modal-emoji">{activeCard.emoji}</span>
-          <div class="modal-category" class:dark-text={activeCard.darkHero}>{activeCard.category}</div>
-          <h2 class="modal-title" class:dark-text={activeCard.darkHero}>{activeCard.title}</h2>
-          <p class="modal-desc" class:dark-text={activeCard.darkHero}>{activeCard.desc}</p>
+          <div class="modal-category" class:dark-text={activeCard.darkHero}>{t($lang, activeCard, 'category')}</div>
+          <h2 class="modal-title" class:dark-text={activeCard.darkHero}>{t($lang, activeCard, 'title')}</h2>
+          <p class="modal-desc" class:dark-text={activeCard.darkHero}>{t($lang, activeCard, 'desc')}</p>
         </div>
       {/if}
     </div>
 
     <!-- RIGHT/BOTTOM: BODY PANEL -->
     <div class="modal-body">
-      <p class="modal-about">{activeCard.about}</p>
+      <p class="modal-about">{t($lang, activeCard, 'about')}</p>
 
       <div class="modal-details">
-        {#each activeCard.details as detail}
+        {#each activeCard.details as detail, idx}
         <div class="modal-detail-item">
           <span class="detail-icon">{detail.icon}</span>
           <div>
-            <strong>{detail.title}</strong>
-            <p>{detail.text}</p>
+            <strong>{tDetail($lang, activeCard, idx).title}</strong>
+            <p>{tDetail($lang, activeCard, idx).text}</p>
           </div>
         </div>
         {/each}
       </div>
 
-      {#if activeCard.note}
-      <p class="modal-note">⚠️ {activeCard.note}</p>
+      {#if activeCard.note || (activeCard.i18n?.[$lang]?.note)}
+      <p class="modal-note">⚠️ {t($lang, activeCard, 'note')}</p>
       {/if}
 
       {#if activeCard.hasForm}
@@ -500,29 +938,29 @@
           {#if formStatus[activeCard.id] === 'success'}
             <div class="form-success">
               <span class="success-icon">✅</span>
-              <p>תודה! ניצור קשר בקרוב.</p>
+              <p>{u($lang, 'formSuccess')}</p>
             </div>
           {:else if formStatus[activeCard.id] === 'loading'}
             <div class="form-success">
               <span class="success-icon">⏳</span>
-              <p>שולח פרטים...</p>
+              <p>{u($lang, 'formLoading')}</p>
             </div>
           {:else}
-            <p class="form-label">{activeCard.formLabel || 'הצטרפות לקבוצה'}</p>
+            <p class="form-label">{t($lang, activeCard, 'formLabel') || u($lang, 'joinGroup')}</p>
             {#if activeCard.useGoogleSignIn}
               <div id="google-signin-btn-{activeCard.id}" class="google-signin-container"></div>
             {/if}
             {#if !activeCard.useGoogleSignIn}
             <form class="join-form" on:submit|preventDefault={() => submitForm(activeCard)}>
-              <input type="text" placeholder="שם מלא *" bind:value={formValues[activeCard.id].name} required />
+              <input type="text" placeholder={u($lang, 'fullName')} bind:value={formValues[activeCard.id].name} required />
               {#if (activeCard.formFields || ['name', 'phone']).includes('phone')}
-              <input type="tel" placeholder="מספר טלפון *" bind:value={formValues[activeCard.id].phone} required />
+              <input type="tel" placeholder={u($lang, 'phone')} bind:value={formValues[activeCard.id].phone} required />
               {/if}
-              <button type="submit" class="submit-btn">הצטרפות לקבוצה ←</button>
+              <button type="submit" class="submit-btn">{u($lang, 'joinGroup')} {arrow($lang)}</button>
             </form>
             {/if}
             {#if formStatus[activeCard.id] === 'error'}
-              <p class="form-error">משהו השתבש. נסו שוב.</p>
+              <p class="form-error">{u($lang, 'formError')}</p>
             {/if}
           {/if}
         </div>
@@ -530,14 +968,14 @@
       <div class="modal-links">
         {#each activeCard.links as link, i}
         <a href={link.href} class="modal-link-btn" class:secondary={i > 0}
-           target={link.external ? '_blank' : '_self'}
-           rel={link.external ? 'noopener' : ''}>
-          {link.label}
+           target="_blank"
+           rel="noopener">
+          {tLink($lang, activeCard, i, 'label')}
         </a>
         {/each}
       </div>
       {:else}
-      <p class="modal-coming-soon">🔜 בקרוב - עקבו אחרינו לעדכונים</p>
+      <p class="modal-coming-soon">🔜 {u($lang, 'comingSoon')}</p>
       {/if}
     </div>
 
@@ -546,6 +984,44 @@
 {/if}
 
 <style>
+  /* ===== LANGUAGE SWITCHER ===== */
+  .lang-bar {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+    display: flex;
+    gap: 0.3rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0.3rem;
+    border-radius: 100px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .lang-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.65rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .lang-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
+  .lang-btn.active {
+    background: var(--orange);
+    color: white;
+  }
+
   /* ===== MODAL ===== */
   .modal-backdrop {
     position: fixed; inset: 0;
@@ -607,6 +1083,10 @@
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: background 0.2s, transform 0.2s;
     padding: 0;
+  }
+  :global([dir="ltr"]) .modal-close {
+    right: auto;
+    left: 1rem;
   }
   .modal-close:hover { background: rgba(0,0,0,0.55); transform: scale(1.1); }
 
@@ -722,6 +1202,11 @@
     padding: 0.7rem 0.9rem; border-radius: 0 8px 8px 0;
     margin-bottom: 1.2rem;
   }
+  :global([dir="ltr"]) .modal-note {
+    border-right: none;
+    border-left: 3px solid rgba(0,0,0,0.15);
+    border-radius: 8px 0 0 8px;
+  }
 
   .modal-coming-soon {
     font-size: 0.9rem; color: #5a5a7a;
@@ -754,8 +1239,6 @@
     font-size: 0.95rem;
     color: #1a1a2e;
     background: #fafafa;
-    direction: rtl;
-    text-align: right;
     transition: border-color 0.2s, background 0.2s;
     outline: none;
   }
@@ -845,5 +1328,6 @@
     .modal-hero-inner { padding: 2rem 1.5rem 1.5rem; }
     .modal-body { padding: 1.5rem 1.5rem 2rem; }
     .modal-close { top: 0.75rem; right: 0.75rem; }
+    :global([dir="ltr"]) .modal-close { right: auto; left: 0.75rem; }
   }
 </style>
